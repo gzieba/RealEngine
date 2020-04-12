@@ -17,22 +17,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     source/Common/easyloggingpp/easylogging++.cc \
+    source/Ui/FileMenu.cpp \
     source/MessageSystem/Message.cpp \
     source/MessageSystem/MessageBus.cpp \
     source/MessageSystem/Messenger.cpp \
     source/main.cpp \
-    source/MainWindow.cpp
+    source/Ui/MainWindow.cpp
 
 HEADERS += \
     source/Common/easyloggingpp/easylogging++.h \
     source/Common/logging.h \
-    source/MainWindow.h \
+    source/Ui/FileMenu.h \
+    source/Ui/MainWindow.h \
     source/MessageSystem/Message.h \
     source/MessageSystem/MessageBus.h \
     source/MessageSystem/Messenger.h
 
 FORMS += \
-    source/MainWindow.ui
+    source/Ui/MainWindow.ui
 
 LIBS +=	\
     -lassimp

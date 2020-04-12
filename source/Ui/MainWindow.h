@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
-#include "MessageSystem/Messenger.h"
+#include "source/MessageSystem/Messenger.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,6 +18,8 @@ public:
 	void handleMessage(const Message &) override;
 
 private:
+	void setupMenu();
+
 	Ui::MainWindow *m_ui;
 };
 
