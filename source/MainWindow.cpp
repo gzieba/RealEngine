@@ -4,17 +4,17 @@
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
-	, ui(new Ui::MainWindow)
+	, m_ui(new Ui::MainWindow)
 {
-	ui->setupUi(this);
+	m_ui->setupUi(this);
 
-	connect(ui->pushButton, &QPushButton::clicked, this, [this](){ sendMessage(Message::Msg::Test); });
+	connect(m_ui->pushButton, &QPushButton::clicked, this, [this](){ sendMessage(Message::Msg::Test); });
 
 }
 
 MainWindow::~MainWindow()
 {
-	delete ui;
+	delete m_ui;
 }
 
 void MainWindow::handleMessage(const Message &message)

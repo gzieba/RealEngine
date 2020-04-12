@@ -13,7 +13,7 @@ void MessageBus::handleMessages()
 {
 	while(true)
 	{
-		std::lock_guard<std::mutex> lock(m_mutex);
+		std::unique_lock<std::mutex> lock(m_mutex);
 		if(!m_messageQueue.empty())
 		{
 			auto message = m_messageQueue.front();
@@ -23,7 +23,7 @@ void MessageBus::handleMessages()
 		}
 		else
 		{
-			std::this_thread::yield();
+			m_conditionVariable.wait(lock);
 		}
 
 	}
@@ -54,4 +54,5 @@ void MessageBus::sendMessage(const Message& message)
 {
 	std::lock_guard<std::mutex> lock(m_mutex);
 	m_messageQueue.push(message);
+	m_conditionVariable.notify_one();
 }

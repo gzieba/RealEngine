@@ -18,6 +18,6 @@ public:
 	void handleMessage(const Message &) override;
 
 private:
-	Ui::MainWindow *ui;
+	Ui::MainWindow *m_ui;
 };
 
