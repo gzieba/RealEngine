@@ -1,5 +1,6 @@
 #include "FileMenu.h"
 #include "source/Common/logging.h"
+#include <QFileDialog>
 
 FileMenu::FileMenu(QWidget* parent) : QMenu(parent)
 {
@@ -11,5 +12,6 @@ FileMenu::FileMenu(QWidget* parent) : QMenu(parent)
 
 void FileMenu::loadFile()
 {
-	LOG(INFO) << LOCATION << "loadFile pressed";
+	auto fileName = QFileDialog::getOpenFileUrl(this);
+	LOG(INFO) << LOCATION << "loadFile pressed: " << fileName.toString().toStdString();
 }
