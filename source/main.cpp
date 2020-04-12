@@ -1,4 +1,8 @@
 #include "MainWindow.h"
+#include "Common/logging.h"
+
+INITIALIZE_EASYLOGGINGPP
+
 
 #include <QApplication>
 
