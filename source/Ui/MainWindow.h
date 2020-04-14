@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
-#include "source/MessageSystem/Messenger.h"
+#include "Modules/MessageSystem/Messenger.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

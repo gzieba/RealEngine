@@ -1,8 +1,9 @@
 #pragma once
 
 #include <QMenu>
+#include "Modules/MessageSystem/Messenger.h"
 
-class FileMenu : public QMenu
+class FileMenu : public QMenu, Messenger
 {
 	Q_OBJECT
 public:
@@ -10,6 +11,9 @@ public:
 
 private slots:
 	void loadFile();
+
+private:
+	void removeFilePrefix(std::string& filePath);
 };
 
 

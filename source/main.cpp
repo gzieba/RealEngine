@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+#include "Ui/MainWindow.h"
 #include "Common/logging.h"
 
 INITIALIZE_EASYLOGGINGPP

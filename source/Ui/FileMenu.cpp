@@ -1,5 +1,5 @@
 #include "FileMenu.h"
-#include "source/Common/logging.h"
+#include "Common/logging.h"
 #include <QFileDialog>
 
 FileMenu::FileMenu(QWidget* parent) : QMenu(parent)
@@ -12,6 +12,20 @@ FileMenu::FileMenu(QWidget* parent) : QMenu(parent)
 
 void FileMenu::loadFile()
 {
-	auto fileName = QFileDialog::getOpenFileUrl(this);
-	LOG(INFO) << LOCATION << "loadFile pressed: " << fileName.toString().toStdString();
+	auto fileName = QFileDialog::getOpenFileUrl(this).toString().toStdString();
+	LOG(INFO) << LOCATION << "loadFile pressed: " << fileName;
+	removeFilePrefix(fileName);
+	sendMessage({Message::Msg::LoadModel, fileName});
+}
+
+void FileMenu::removeFilePrefix(std::string &filePath)
+{
+	std::string filePrefix = "file://";
+	auto position = filePath.find(filePrefix);
+
+	if (position != std::string::npos)
+	{
+		// If found then erase it from string
+		filePath.erase(position, filePrefix.length());
+	}
 }

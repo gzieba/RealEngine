@@ -1,7 +1,8 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
-#include "source/Common/logging.h"
+#include "Common/logging.h"
 #include "FileMenu.h"
+#include "Modules/Objects/Model/ModelManager.h"
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -9,6 +10,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
 	m_ui->setupUi(this);
 	setupMenu();
+
+	m_ui->fileList = new ModelManager(this);
+	m_ui->fileList->setGeometry(QRect(500, 30, 271, 331));
 
 	connect(m_ui->pushButton, &QPushButton::clicked, this, [this](){ sendMessage(Message::Msg::Test); });
 

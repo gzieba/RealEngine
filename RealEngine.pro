@@ -17,27 +17,40 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     source/Common/easyloggingpp/easylogging++.cc \
+    source/Modules/Objects/Model/Mesh.cpp \
+    source/Modules/Objects/Model/Model.cpp \
+    source/Modules/Objects/Model/ModelLoader.cpp \
+    source/Modules/Objects/Model/ModelManager.cpp \
+    source/RealEngine.cpp \
     source/Ui/FileMenu.cpp \
-    source/MessageSystem/Message.cpp \
-    source/MessageSystem/MessageBus.cpp \
-    source/MessageSystem/Messenger.cpp \
+    source/Modules/MessageSystem/Message.cpp \
+    source/Modules/MessageSystem/MessageBus.cpp \
+    source/Modules/MessageSystem/Messenger.cpp \
     source/main.cpp \
     source/Ui/MainWindow.cpp
 
 HEADERS += \
     source/Common/easyloggingpp/easylogging++.h \
     source/Common/logging.h \
+    source/Modules/Objects/Model/Mesh.h \
+    source/Modules/Objects/Model/Model.h \
+    source/Modules/Objects/Model/ModelLoader.h \
+    source/Modules/Objects/Model/ModelManager.h \
+    source/RealEngine.h \
     source/Ui/FileMenu.h \
     source/Ui/MainWindow.h \
-    source/MessageSystem/Message.h \
-    source/MessageSystem/MessageBus.h \
-    source/MessageSystem/Messenger.h
+    source/Modules/MessageSystem/Message.h \
+    source/Modules/MessageSystem/MessageBus.h \
+    source/Modules/MessageSystem/Messenger.h
 
 FORMS += \
     source/Ui/MainWindow.ui
 
 LIBS +=	\
     -lassimp
+
+INCLUDEPATH +=	\
+    source/
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
