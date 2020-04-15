@@ -4,6 +4,8 @@
 #include "FileMenu.h"
 #include "Modules/Objects/Model/ModelManager.h"
 
+#include <thread>
+
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 	, m_ui(new Ui::MainWindow)
@@ -27,6 +29,11 @@ void MainWindow::handleMessage(const Message &message)
 {
 	if(message.getMessage() == Message::Msg::Test)
 		LOG(INFO) << LOCATION << "Button was pressed";
+}
+
+void MainWindow::closeEvent(QCloseEvent *)
+{
+	sendMessage(Message::Msg::Shutdown);
 }
 
 void MainWindow::setupMenu()

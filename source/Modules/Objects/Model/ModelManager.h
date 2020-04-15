@@ -3,7 +3,6 @@
 #include <QListWidget>
 #include <vector>
 
-
 #include "Modules/MessageSystem/Messenger.h"
 
 class Model;

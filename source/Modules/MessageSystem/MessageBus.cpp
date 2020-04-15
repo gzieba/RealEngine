@@ -11,7 +11,8 @@ MessageBus::MessageBus()
 
 void MessageBus::handleMessages()
 {
-	while(true)
+	bool shouldExit = false;
+	while(!shouldExit)
 	{
 		std::unique_lock<std::mutex> lock(m_mutex);
 		if(!m_messageQueue.empty())
@@ -20,6 +21,8 @@ void MessageBus::handleMessages()
 			for(auto& messenger : m_messangers)
 				messenger->handleMessage(message);
 			m_messageQueue.pop();
+			if(message.getMessage() == Message::Msg::Shutdown)
+				shouldExit = true;
 		}
 		else
 		{
@@ -27,6 +30,11 @@ void MessageBus::handleMessages()
 		}
 
 	}
+}
+
+MessageBus::~MessageBus()
+{
+	m_handleMessagesThread.join();
 }
 
 MessageBus& MessageBus::instance()

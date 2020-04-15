@@ -22,6 +22,7 @@ class MessageBus
 	std::queue<Message> m_messageQueue;
 public:
 	MessageBus(const MessageBus&) = delete;
+	~MessageBus();
 	void operator=(const MessageBus&) = delete;
 
 	static MessageBus& instance();

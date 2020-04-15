@@ -10,7 +10,8 @@ public:
 		None,
 		Test,
 		Unknown,
-		LoadModel
+		LoadModel,
+		Shutdown
 	};
 
 	Message();

@@ -3,8 +3,8 @@
 #include "Mesh.h"
 
 Model::Model(std::string name, std::vector<Mesh*> meshes)
-	: m_name(name)
-	, m_meshes(meshes)
+	: m_meshes(meshes)
+	, m_name(name)
 {
 
 }

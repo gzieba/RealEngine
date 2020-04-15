@@ -17,6 +17,9 @@ public:
 
 	void handleMessage(const Message &) override;
 
+protected:
+	void closeEvent(QCloseEvent*) override;
+
 private:
 	void setupMenu();
 
