@@ -16,8 +16,6 @@ ModelLoader::ModelLoader()
 
 Model* ModelLoader::loadModel(std::string filePath)
 {
-	auto modelName = filePath.substr(filePath.find_last_of('/') + 1, filePath.back());
-
 	Assimp::Importer importer;
 
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -32,7 +30,7 @@ Model* ModelLoader::loadModel(std::string filePath)
 
 	processNode(scene->mRootNode, scene);
 
-	return new Model(modelName, m_meshes);
+	return new Model(m_meshes);
 }
 
 void ModelLoader::processNode(aiNode *node, const aiScene *scene)

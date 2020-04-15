@@ -20,7 +20,6 @@ SOURCES += \
     source/Modules/Objects/Model/Mesh.cpp \
     source/Modules/Objects/Model/Model.cpp \
     source/Modules/Objects/Model/ModelLoader.cpp \
-    source/Modules/Objects/Model/ModelManager.cpp \
     source/Modules/Objects/Object.cpp \
     source/Modules/Objects/ObjectManager.cpp \
     source/RealEngine.cpp \
@@ -37,7 +36,6 @@ HEADERS += \
     source/Modules/Objects/Model/Mesh.h \
     source/Modules/Objects/Model/Model.h \
     source/Modules/Objects/Model/ModelLoader.h \
-    source/Modules/Objects/Model/ModelManager.h \
     source/Modules/Objects/Object.h \
     source/Modules/Objects/ObjectManager.h \
     source/RealEngine.h \
