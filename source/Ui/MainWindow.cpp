@@ -2,9 +2,7 @@
 #include "ui_MainWindow.h"
 #include "Common/logging.h"
 #include "FileMenu.h"
-#include "Modules/Objects/ObjectManager.h"
-
-#include <thread>
+#include "Ui/ObjectListWidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -13,10 +11,10 @@ MainWindow::MainWindow(QWidget *parent)
 	m_ui->setupUi(this);
 	setupMenu();
 
-	m_ui->fileList = new ObjectManager(this);
+	m_ui->fileList = new ObjectListWidget(this);
 	m_ui->fileList->setGeometry(QRect(500, 30, 271, 331));
 
-	connect(m_ui->pushButton, &QPushButton::clicked, this, [this](){ sendMessage(Message::Msg::Test); });
+	connect(m_ui->pushButton, &QPushButton::clicked, this, [this](){ sendMessage(MessageType::Test); });
 
 }
 
@@ -27,13 +25,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::handleMessage(const Message &message)
 {
-	if(message.getMessage() == Message::Msg::Test)
-		LOG(INFO) << LOCATION << "Button was pressed";
+	if(message.getMessageType() == MessageType::Test)
+		LOG(TRACE) << "Button was pressed";
 }
 
 void MainWindow::closeEvent(QCloseEvent *)
 {
-	sendMessage(Message::Msg::Shutdown);
+	sendMessage(MessageType::Shutdown);
 }
 
 void MainWindow::setupMenu()

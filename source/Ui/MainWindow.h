@@ -24,5 +24,6 @@ private:
 	void setupMenu();
 
 	Ui::MainWindow *m_ui;
+
 };
 

@@ -13,9 +13,13 @@ FileMenu::FileMenu(QWidget* parent) : QMenu(parent)
 void FileMenu::loadFile()
 {
 	auto fileName = QFileDialog::getOpenFileUrl(this).toString().toStdString();
-	LOG(INFO) << LOCATION << "loadFile pressed: " << fileName;
 	removeFilePrefix(fileName);
-	sendMessage({Message::Msg::LoadModel, fileName});
+	if(fileName.empty())
+	{
+		LOG(WARNING) << LOCATION << "Empty file name.";
+		return;
+	}
+	sendMessage({MessageType::LoadModel, fileName});
 }
 
 void FileMenu::removeFilePrefix(std::string &filePath)

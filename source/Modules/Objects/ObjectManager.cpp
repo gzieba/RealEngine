@@ -4,9 +4,8 @@
 #include "Model/ModelLoader.h"
 #include "Object.h"
 
-ObjectManager::ObjectManager(QWidget *parent)
-	: QListWidget(parent)
-	, m_modelLoader(new ModelLoader())
+ObjectManager::ObjectManager()
+	: m_modelLoader(new ModelLoader())
 {
 
 }
@@ -19,9 +18,9 @@ ObjectManager::~ObjectManager()
 
 void ObjectManager::handleMessage(const Message& message)
 {
-	switch (message.getMessage())
+	switch (message.getMessageType())
 	{
-		case Message::Msg::LoadModel:
+		case MessageType::LoadModel:
 		{
 			loadModel(message.getData());
 			return;
@@ -47,5 +46,5 @@ void ObjectManager::loadModel(std::any data)
 		return;
 	}
 	m_objects.push_back(new Object(modelName, model));
-	addItem(modelName.c_str());
+	sendMessage({MessageType::AddItemToObjectList, modelName});
 }

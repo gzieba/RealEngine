@@ -2,23 +2,19 @@
 
 #include "Modules/MessageSystem/Messenger.h"
 
-#include <QListWidget>
 #include <vector>
 #include <any>
 
 class Object;
 class ModelLoader;
 
-class ObjectManager : public QListWidget, Messenger
+class ObjectManager : public Messenger
 {
-	Q_OBJECT
 public:
-	explicit ObjectManager(QWidget *parent = nullptr);
-	~ObjectManager();
+	explicit ObjectManager();
+	virtual ~ObjectManager();
 
 	void handleMessage(const Message &) override;
-
-signals:
 
 private:
 	void loadModel(std::any data);

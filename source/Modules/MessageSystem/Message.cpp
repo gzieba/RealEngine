@@ -2,15 +2,15 @@
 
 Message::Message()
 {
-	m_message = Msg::Unknown;
+	m_message = MessageType::Unknown;
 }
 
-Message::Message(Message::Msg message)
+Message::Message(MessageType message)
 {
 	m_message = message;
 }
 
-Message::Message(Message::Msg message, std::any data)
+Message::Message(MessageType message, std::any data)
 {
 	m_message = message;
 	m_data = data;
@@ -26,12 +26,12 @@ std::any Message::getData() const
 	return m_data;
 }
 
-void Message::setMessage(Message::Msg message)
+void Message::setMessage(MessageType message)
 {
 	m_message = message;
 }
 
-Message::Msg Message::getMessage() const
+MessageType Message::getMessageType() const
 {
 	return m_message;
 }

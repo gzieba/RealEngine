@@ -17,6 +17,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     source/Common/easyloggingpp/easylogging++.cc \
+    source/Modules/MessageSystem/Message.cpp \
+    source/Modules/Objects/Components/Transform.cpp \
     source/Modules/Objects/Model/Mesh.cpp \
     source/Modules/Objects/Model/Model.cpp \
     source/Modules/Objects/Model/ModelLoader.cpp \
@@ -24,15 +26,18 @@ SOURCES += \
     source/Modules/Objects/ObjectManager.cpp \
     source/RealEngine.cpp \
     source/Ui/FileMenu.cpp \
-    source/Modules/MessageSystem/Message.cpp \
     source/Modules/MessageSystem/MessageBus.cpp \
     source/Modules/MessageSystem/Messenger.cpp \
+    source/Ui/ObjectListWidget.cpp \
     source/main.cpp \
     source/Ui/MainWindow.cpp
 
 HEADERS += \
     source/Common/easyloggingpp/easylogging++.h \
     source/Common/logging.h \
+    source/Modules/MessageSystem/Message.h \
+    source/Modules/MessageSystem/MessageType.h \
+    source/Modules/Objects/Components/Transform.h \
     source/Modules/Objects/Model/Mesh.h \
     source/Modules/Objects/Model/Model.h \
     source/Modules/Objects/Model/ModelLoader.h \
@@ -41,9 +46,9 @@ HEADERS += \
     source/RealEngine.h \
     source/Ui/FileMenu.h \
     source/Ui/MainWindow.h \
-    source/Modules/MessageSystem/Message.h \
     source/Modules/MessageSystem/MessageBus.h \
-    source/Modules/MessageSystem/Messenger.h
+    source/Modules/MessageSystem/Messenger.h \
+    source/Ui/ObjectListWidget.h
 
 FORMS += \
     source/Ui/MainWindow.ui

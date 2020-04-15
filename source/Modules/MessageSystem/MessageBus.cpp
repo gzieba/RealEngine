@@ -14,18 +14,22 @@ void MessageBus::handleMessages()
 	bool shouldExit = false;
 	while(!shouldExit)
 	{
-		std::unique_lock<std::mutex> lock(m_mutex);
+		m_mutex.lock();
 		if(!m_messageQueue.empty())
 		{
 			auto message = m_messageQueue.front();
+			m_mutex.unlock();
+			LOG(TRACE) << messageTypeToString(message.getMessageType());
 			for(auto& messenger : m_messangers)
 				messenger->handleMessage(message);
 			m_messageQueue.pop();
-			if(message.getMessage() == Message::Msg::Shutdown)
+			if(message.getMessageType() == MessageType::Shutdown)
 				shouldExit = true;
 		}
 		else
 		{
+			m_mutex.unlock();
+			std::unique_lock<std::mutex> lock(m_mutex);
 			m_conditionVariable.wait(lock);
 		}
 

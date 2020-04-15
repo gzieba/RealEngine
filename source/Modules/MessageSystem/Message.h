@@ -1,32 +1,25 @@
 #pragma once
 
 #include <any>
+#include "MessageType.h"
 
 class Message
 {
 public:
-	enum class Msg
-	{
-		None,
-		Test,
-		Unknown,
-		LoadModel,
-		Shutdown
-	};
 
 	Message();
-	Message(Msg message);
-	Message(Msg message, std::any data);
+	Message(MessageType message);
+	Message(MessageType message, std::any data);
 
 	void setData(std::any data);
 	std::any getData() const;
 
-	void setMessage(Msg message);
-	Msg getMessage() const;
+	void setMessage(MessageType message);
+	MessageType getMessageType() const;
 
 private:
 	std::any m_data;
-	Msg m_message;
+	MessageType m_message;
 
 };
 
