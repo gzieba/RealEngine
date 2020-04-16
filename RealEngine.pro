@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17
+CONFIG += c++17 -O0
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -29,6 +29,7 @@ SOURCES += \
     source/Modules/MessageSystem/MessageBus.cpp \
     source/Modules/MessageSystem/Messenger.cpp \
     source/Ui/ObjectListWidget.cpp \
+    source/Ui/ObjectTransformWidget.cpp \
     source/main.cpp \
     source/Ui/MainWindow.cpp
 
@@ -48,10 +49,12 @@ HEADERS += \
     source/Ui/MainWindow.h \
     source/Modules/MessageSystem/MessageBus.h \
     source/Modules/MessageSystem/Messenger.h \
-    source/Ui/ObjectListWidget.h
+    source/Ui/ObjectListWidget.h \
+    source/Ui/ObjectTransformWidget.h
 
 FORMS += \
-    source/Ui/MainWindow.ui
+    source/Ui/MainWindow.ui \
+    source/Ui/ObjectTransformWidget.ui
 
 LIBS +=	\
     -lassimp

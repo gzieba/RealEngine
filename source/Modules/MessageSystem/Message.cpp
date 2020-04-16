@@ -21,11 +21,6 @@ void Message::setData(std::any data)
 	m_data = data;
 }
 
-std::any Message::getData() const
-{
-	return m_data;
-}
-
 void Message::setMessage(MessageType message)
 {
 	m_message = message;

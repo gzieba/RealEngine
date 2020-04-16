@@ -9,10 +9,8 @@ MainWindow::MainWindow(QWidget *parent)
 	, m_ui(new Ui::MainWindow)
 {
 	m_ui->setupUi(this);
+	m_ui->fileList->setObjectTransformWidget(m_ui->widget);
 	setupMenu();
-
-	m_ui->fileList = new ObjectListWidget(this);
-	m_ui->fileList->setGeometry(QRect(500, 30, 271, 331));
 
 	connect(m_ui->pushButton, &QPushButton::clicked, this, [this](){ sendMessage(MessageType::Test); });
 

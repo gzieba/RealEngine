@@ -17,7 +17,7 @@ public:
 	void handleMessage(const Message &) override;
 
 private:
-	void loadModel(std::any data);
+	void loadModel(std::string data);
 
 	std::vector<Object*> m_objects;
 	ModelLoader* m_modelLoader;

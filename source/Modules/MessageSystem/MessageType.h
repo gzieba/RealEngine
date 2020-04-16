@@ -8,7 +8,7 @@ enum class MessageType
 	Test,
 	Unknown,
 	LoadModel,
-	AddItemToObjectList,
+	ObjectListChanged,
 	Shutdown
 };
 
@@ -20,18 +20,8 @@ const std::map<MessageType, std::string> s_messageTypeToString =
 	{MessageType::Test, "Test"},
 	{MessageType::Unknown, "Unknown"},
 	{MessageType::LoadModel, "LoadModel"},
-	{MessageType::AddItemToObjectList, "AddItemToObjectList"},
+	{MessageType::ObjectListChanged, "ObjectListChanged"},
 	{MessageType::Shutdown, "Shutdown"}
-};
-
-const std::map<std::string, MessageType> s_stringToMessageType =
-{
-	{"None", MessageType::None},
-	{"Test", MessageType::Test},
-	{"Unknown", MessageType::Unknown},
-	{"LoadModel", MessageType::LoadModel},
-	{"AddItemToObjectList", MessageType::AddItemToObjectList},
-	{"Shutdown", MessageType::Shutdown}
 };
 
 }
@@ -39,9 +29,4 @@ const std::map<std::string, MessageType> s_stringToMessageType =
 inline std::string messageTypeToString(MessageType messageType)
 {
 	return s_messageTypeToString.at(messageType);
-}
-
-inline MessageType stringToMessageType(std::string string)
-{
-	return s_stringToMessageType.at(string);
 }

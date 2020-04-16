@@ -15,6 +15,21 @@ Object::Object(std::string name, Model *model)
 
 }
 
+Transform Object::getTransform() const
+{
+	return m_transform;
+}
+
+void Object::setTransform(Transform transform)
+{
+	m_transform = transform;
+}
+
+std::string Object::getName() const
+{
+	return m_name;
+}
+
 Object::~Object()
 {
 	delete m_model;

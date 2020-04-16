@@ -1,19 +1,23 @@
 #include "ObjectListWidget.h"
 #include "Common/logging.h"
 
+#include "Modules/Objects/Object.h"
+#include "Ui/ObjectTransformWidget.h"
+
 ObjectListWidget::ObjectListWidget(QWidget *parent) : QListWidget(parent)
 {
-
+	connect(this, &QListWidget::currentRowChanged,
+			[=](int row){ if(row >= 0) dynamic_cast<ObjectTransformWidget*>(m_objectTransformWidget)->updateData((*m_objects)[row]->getTransform()); });
 }
 
 void ObjectListWidget::handleMessage(const Message& message)
 {
 	switch(message.getMessageType())
 	{
-		case MessageType::AddItemToObjectList:
+		case MessageType::ObjectListChanged:
 		{
-			LOG(TRACE) << LOCATION << "Adding item to object list";
-			addItemToObjectList(message.getData());
+			LOG(TRACE) << "Adding item to object list";
+			updateList(message.getData<std::vector<Object*>*>());
 			return;
 		}
 		default:
@@ -21,19 +25,21 @@ void ObjectListWidget::handleMessage(const Message& message)
 	}
 }
 
-void ObjectListWidget::addItemToObjectList(std::any data)
+void ObjectListWidget::setObjectTransformWidget(QWidget *widget)
 {
-	if(!data.has_value())
+	m_objectTransformWidget = widget;
+	connect(dynamic_cast<ObjectTransformWidget*>(m_objectTransformWidget), &ObjectTransformWidget::transformUpdated,
+			[this](Transform transform){ if(currentRow() >= 0) (*m_objects)[currentRow()]->setTransform(transform); });
+}
+
+void ObjectListWidget::updateList(std::vector<Object*>* objects)
+{
+	LOG(TRACE) << "Updating object list in UI";
+	clear();
+	m_objects = objects;
+	for(const auto& object : *m_objects)
 	{
-		LOG(WARNING) << LOCATION << "no data in message";
-		return;
+		addItem(object->getName().c_str());
 	}
-	auto objectName = std::any_cast<std::string>(data);
-	if(objectName.empty())
-	{
-		LOG(WARNING) << LOCATION << "empty string";
-		return;
-	}
-	addItem(objectName.c_str());
 	update();
 }
