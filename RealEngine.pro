@@ -24,6 +24,8 @@ SOURCES += \
     source/Modules/Objects/Model/ModelLoader.cpp \
     source/Modules/Objects/Object.cpp \
     source/Modules/Objects/ObjectManager.cpp \
+    source/Modules/Renderer/OpenGL/OpenGLIndexBuffer.cpp \
+    source/Modules/Renderer/Renderer.cpp \
     source/RealEngine.cpp \
     source/Ui/FileMenu.cpp \
     source/Modules/MessageSystem/MessageBus.cpp \
@@ -31,7 +33,8 @@ SOURCES += \
     source/Ui/ObjectListWidget.cpp \
     source/Ui/ObjectTransformWidget.cpp \
     source/main.cpp \
-    source/Ui/MainWindow.cpp
+    source/Ui/MainWindow.cpp	\
+    third-party/glad/glad.c
 
 HEADERS += \
     source/Common/easyloggingpp/easylogging++.h \
@@ -44,6 +47,8 @@ HEADERS += \
     source/Modules/Objects/Model/ModelLoader.h \
     source/Modules/Objects/Object.h \
     source/Modules/Objects/ObjectManager.h \
+    source/Modules/Renderer/OpenGL/OpenGLIndexBuffer.h \
+    source/Modules/Renderer/Renderer.h \
     source/RealEngine.h \
     source/Ui/FileMenu.h \
     source/Ui/MainWindow.h \
@@ -57,10 +62,12 @@ FORMS += \
     source/Ui/ObjectTransformWidget.ui
 
 LIBS +=	\
-    -lassimp
+    -lassimp	\
+    -ldl
 
 INCLUDEPATH +=	\
-    source/
+    source/	\
+    third-party/include/
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
