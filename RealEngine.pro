@@ -25,6 +25,7 @@ SOURCES += \
     source/Modules/Objects/Object.cpp \
     source/Modules/Objects/ObjectManager.cpp \
     source/Modules/Renderer/OpenGL/OpenGLIndexBuffer.cpp \
+    source/Modules/Renderer/OpenGL/OpenGLShader.cpp \
     source/Modules/Renderer/Renderer.cpp \
     source/RealEngine.cpp \
     source/Ui/FileMenu.cpp \
@@ -48,7 +49,9 @@ HEADERS += \
     source/Modules/Objects/Object.h \
     source/Modules/Objects/ObjectManager.h \
     source/Modules/Renderer/OpenGL/OpenGLIndexBuffer.h \
+    source/Modules/Renderer/OpenGL/OpenGLShader.h \
     source/Modules/Renderer/Renderer.h \
+    source/Modules/Renderer/ShaderType.h \
     source/RealEngine.h \
     source/Ui/FileMenu.h \
     source/Ui/MainWindow.h \
