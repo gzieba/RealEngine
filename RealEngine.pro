@@ -2,7 +2,9 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17 -O0
+CONFIG += c++17
+
+QMAKE_CXXFLAGS += -O0 -pedantic -Wall
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -24,8 +26,12 @@ SOURCES += \
     source/Modules/Objects/Model/ModelLoader.cpp \
     source/Modules/Objects/Object.cpp \
     source/Modules/Objects/ObjectManager.cpp \
+    source/Modules/Renderer/Interface/ITexture2D.cpp \
     source/Modules/Renderer/OpenGL/OpenGLIndexBuffer.cpp \
     source/Modules/Renderer/OpenGL/OpenGLShader.cpp \
+    source/Modules/Renderer/OpenGL/OpenGLTexture2D.cpp \
+    source/Modules/Renderer/OpenGL/OpenGLVertexArray.cpp \
+    source/Modules/Renderer/OpenGL/OpenGLVertexBuffer.cpp \
     source/Modules/Renderer/Renderer.cpp \
     source/RealEngine.cpp \
     source/Ui/FileMenu.cpp \
@@ -48,10 +54,17 @@ HEADERS += \
     source/Modules/Objects/Model/ModelLoader.h \
     source/Modules/Objects/Object.h \
     source/Modules/Objects/ObjectManager.h \
+    source/Modules/Renderer/Interface/IShader.h \
+    source/Modules/Renderer/Interface/ITexture2D.h \
+    source/Modules/Renderer/Interface/IVertexArray.h \
     source/Modules/Renderer/OpenGL/OpenGLIndexBuffer.h \
     source/Modules/Renderer/OpenGL/OpenGLShader.h \
+    source/Modules/Renderer/OpenGL/OpenGLTexture2D.h \
+    source/Modules/Renderer/OpenGL/OpenGLVertexArray.h \
+    source/Modules/Renderer/OpenGL/OpenGLVertexBuffer.h \
     source/Modules/Renderer/Renderer.h \
     source/Modules/Renderer/ShaderType.h \
+    source/Modules/Renderer/Vertex.h \
     source/RealEngine.h \
     source/Ui/FileMenu.h \
     source/Ui/MainWindow.h \

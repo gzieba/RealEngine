@@ -32,7 +32,7 @@ void OpenGLShader::useShader() const
 	glUseProgram(m_shaderProgram);
 }
 
-void OpenGLShader::setUniform(const char* name, std::variant<int, float, glm::vec3, glm::mat4> value)
+void OpenGLShader::setUniform(const char* name, std::variant<int, float, glm::vec3, glm::mat4> value) const
 {
 	auto uniformLocation = glGetUniformLocation(m_shaderProgram, name);
 	if(uniformLocation < 0)
