@@ -6,7 +6,7 @@ class OpenGLTexture2D : public ITexture2D
 {
 public:
 	OpenGLTexture2D(unsigned char* textureData, int width, int height, int numberOfChannels);
-	~OpenGLTexture2D() override = default;
+	virtual ~OpenGLTexture2D() = default;
 
 	void bind() const override;
 private:

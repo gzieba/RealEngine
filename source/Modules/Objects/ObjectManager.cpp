@@ -5,17 +5,10 @@
 #include "Object.h"
 #include <array>
 
-ObjectManager::ObjectManager()
-	: m_modelLoader(new ModelLoader())
-{
-
-}
-
 ObjectManager::~ObjectManager()
 {
 	for(auto& object : m_objects)
 		delete object;
-	delete m_modelLoader;
 }
 
 void ObjectManager::handleMessage(const Message& message)
@@ -36,7 +29,7 @@ void ObjectManager::loadModel(std::string data)
 {
 	auto filePath = std::any_cast<std::string>(data);
 	auto modelName = filePath.substr(filePath.find_last_of('/') + 1, filePath.back());
-	auto model = m_modelLoader->loadModel(filePath);
+	auto model = ModelLoader().loadModel(filePath);
 	if(!model)
 	{
 		LOG(WARNING) << LOCATION << "Model is nullptr";

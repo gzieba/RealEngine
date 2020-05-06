@@ -4,3 +4,8 @@ Renderer::Renderer()
 {
 
 }
+
+void Renderer::handleMessage(const Message &)
+{
+
+}

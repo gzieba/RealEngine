@@ -6,12 +6,11 @@
 #include <any>
 
 class Object;
-class ModelLoader;
 
 class ObjectManager : public Messenger
 {
 public:
-	explicit ObjectManager();
+	explicit ObjectManager() = default;
 	virtual ~ObjectManager();
 
 	void handleMessage(const Message &) override;
@@ -20,7 +19,5 @@ private:
 	void loadModel(std::string data);
 
 	std::vector<Object*> m_objects;
-	ModelLoader* m_modelLoader;
-
 };
 

@@ -1,8 +1,11 @@
 #pragma once
 
-class Renderer
+#include "Modules/MessageSystem/Messenger.h"
+
+class Renderer : public Messenger
 {
 public:
 	Renderer();
+	void handleMessage(const Message &) override;
 };
 

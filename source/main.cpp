@@ -5,7 +5,6 @@
 
 INITIALIZE_EASYLOGGINGPP
 
-
 #include <QApplication>
 
 int main(int argc, char *argv[])
