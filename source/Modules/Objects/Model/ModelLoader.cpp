@@ -90,5 +90,5 @@ Mesh* ModelLoader::processMesh(aiMesh *mesh, const aiScene*)
 
 	// TODO: adding texture loading
 
-	return new Mesh(std::move(vertices), std::move(indices));
+	return new Mesh(vertices, indices);
 }
