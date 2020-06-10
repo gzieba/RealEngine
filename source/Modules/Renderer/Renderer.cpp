@@ -2,14 +2,14 @@
 #include "OpenGL/OpenGLRenderer.h"
 
 Renderer::Renderer()
-	//: m_openGLRenderer(new OpenGLRenderer())
+	: m_openGLRenderer(new OpenGLRenderer())
 {
 
 }
 
 Renderer::~Renderer()
 {
-//	delete m_openGLRenderer;
+	delete m_openGLRenderer;
 }
 
 void Renderer::handleMessage(const Message &)
