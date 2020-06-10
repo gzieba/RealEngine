@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
 	m_ui->setupUi(this);
 	m_ui->fileList->setObjectTransformWidget(m_ui->widget);
+	m_ui->openGLWidget->makeCurrent();
 	setupMenu();
 
 	connect(m_ui->pushButton, &QPushButton::clicked, this, [this](){ sendMessage(MessageType::Test); });

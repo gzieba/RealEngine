@@ -57,6 +57,20 @@ ObjectTransformWidget::~ObjectTransformWidget()
 	delete m_ui;
 }
 
+void ObjectTransformWidget::handleMessage(const Message &message)
+{
+	switch (message.getMessageType())
+	{
+		case MessageType::UpdateTransformUI:
+		{
+			updateData(message.getData<Transform>());
+			return;
+		}
+		default:
+			return;
+	}
+}
+
 void ObjectTransformWidget::updateData(Transform transform)
 {
 	LOG(TRACE) << "Updating transform widget data";

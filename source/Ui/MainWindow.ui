@@ -40,10 +40,20 @@
    <widget class="ObjectTransformWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>10</x>
       <y>30</y>
       <width>221</width>
       <height>161</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QOpenGLWidget" name="openGLWidget">
+    <property name="geometry">
+     <rect>
+      <x>39</x>
+      <y>210</y>
+      <width>441</width>
+      <height>331</height>
      </rect>
     </property>
    </widget>

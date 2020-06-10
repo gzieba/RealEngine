@@ -1,5 +1,6 @@
 #pragma once
 #include <QListWidget>
+#include <memory>
 
 #include "Modules/MessageSystem/Messenger.h"
 #include "Modules/Objects/Components/Transform.h"
@@ -15,9 +16,9 @@ public:
 	void setObjectTransformWidget(QWidget* widget);
 
 private:
-	void updateList(std::vector<Object*>* objects);
+	void updateList(std::pair<int, std::string> objects);
 	QWidget* m_objectTransformWidget;
 
-	std::vector<Object*>* m_objects;
+	std::vector<std::pair<int, std::string>> m_objects;
 };
 

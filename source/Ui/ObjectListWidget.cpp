@@ -7,7 +7,7 @@
 ObjectListWidget::ObjectListWidget(QWidget *parent) : QListWidget(parent)
 {
 	connect(this, &QListWidget::currentRowChanged,
-			[=](int row){ if(row >= 0) dynamic_cast<ObjectTransformWidget*>(m_objectTransformWidget)->updateData((*m_objects)[row]->getTransform()); });
+			[=](int row){ if(row >= 0) sendMessage({MessageType::GetTransform, row}); });
 }
 
 void ObjectListWidget::handleMessage(const Message& message)
@@ -17,7 +17,7 @@ void ObjectListWidget::handleMessage(const Message& message)
 		case MessageType::ObjectListChanged:
 		{
 			LOG(TRACE) << "Adding item to object list";
-			updateList(message.getData<std::vector<Object*>*>());
+			updateList(message.getData<std::pair<int, std::string>>());
 			return;
 		}
 		default:
@@ -29,17 +29,18 @@ void ObjectListWidget::setObjectTransformWidget(QWidget *widget)
 {
 	m_objectTransformWidget = widget;
 	connect(dynamic_cast<ObjectTransformWidget*>(m_objectTransformWidget), &ObjectTransformWidget::transformUpdated,
-			[this](Transform transform){ if(currentRow() >= 0) (*m_objects)[currentRow()]->setTransform(transform); });
+			[this](Transform transform){
+		if(currentRow() >= 0)
+			sendMessage({MessageType::SetTransform, std::pair<int, Transform>(m_objects[currentRow()].first, transform)});
+	});
 }
 
-void ObjectListWidget::updateList(std::vector<Object*>* objects)
+void ObjectListWidget::updateList(std::pair<int, std::string> object)
 {
 	LOG(TRACE) << "Updating object list in UI";
 	clear();
-	m_objects = objects;
-	for(const auto& object : *m_objects)
-	{
-		addItem(object->getName().c_str());
-	}
+	m_objects.push_back(object);
+	for(const auto& obj : m_objects)
+		addItem(QString::fromStdString(obj.second));
 	update();
 }

@@ -10,8 +10,8 @@ INITIALIZE_EASYLOGGINGPP
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	RealEngine r;
 	MainWindow w;
+	RealEngine r;
 	w.show();
 	return a.exec();
 }

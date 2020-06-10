@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Modules/MessageSystem/Messenger.h"
+#include "Object.h"
 
+#include <memory>
 #include <vector>
-#include <any>
 
 class Object;
 
@@ -11,13 +12,13 @@ class ObjectManager : public Messenger
 {
 public:
 	explicit ObjectManager() = default;
-	virtual ~ObjectManager();
+	virtual ~ObjectManager() = default;
 
 	void handleMessage(const Message &) override;
 
 private:
 	void loadModel(std::string data);
 
-	std::vector<Object*> m_objects;
+	std::vector<std::unique_ptr<Object>> m_objects;
 };
 

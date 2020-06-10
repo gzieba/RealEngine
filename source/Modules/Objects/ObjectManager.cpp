@@ -2,14 +2,6 @@
 
 #include "Common/logging.h"
 #include "Model/ModelLoader.h"
-#include "Object.h"
-#include <array>
-
-ObjectManager::~ObjectManager()
-{
-	for(auto& object : m_objects)
-		delete object;
-}
 
 void ObjectManager::handleMessage(const Message& message)
 {
@@ -18,6 +10,18 @@ void ObjectManager::handleMessage(const Message& message)
 		case MessageType::LoadModel:
 		{
 			loadModel(message.getData<std::string>());
+			return;
+		}
+		case MessageType::GetTransform:
+		{
+			auto id = message.getData<int>();
+			sendMessage({Message(MessageType::UpdateTransformUI, m_objects[id]->getTransform())});
+			return;
+		}
+		case MessageType::SetTransform:
+		{
+			auto data = message.getData<std::pair<int, Transform>>();
+			m_objects[data.first]->setTransform(data.second);
 			return;
 		}
 		default:
@@ -35,6 +39,6 @@ void ObjectManager::loadModel(std::string data)
 		LOG(WARNING) << LOCATION << "Model is nullptr";
 		return;
 	}
-	m_objects.push_back(new Object(modelName, model));
-	sendMessage({MessageType::ObjectListChanged, &m_objects});
+	m_objects.push_back(std::make_unique<Object>(Object(modelName, model)));
+	sendMessage({MessageType::ObjectListChanged, std::pair<int, std::string>(m_objects.size() - 1, modelName)});
 }

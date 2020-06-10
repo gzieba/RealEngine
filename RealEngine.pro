@@ -28,6 +28,7 @@ SOURCES += \
     source/Modules/Objects/ObjectManager.cpp \
     source/Modules/Renderer/Interface/ITexture2D.cpp \
     source/Modules/Renderer/OpenGL/OpenGLIndexBuffer.cpp \
+    source/Modules/Renderer/OpenGL/OpenGLRenderer.cpp \
     source/Modules/Renderer/OpenGL/OpenGLShader.cpp \
     source/Modules/Renderer/OpenGL/OpenGLTexture2D.cpp \
     source/Modules/Renderer/OpenGL/OpenGLVertexArray.cpp \
@@ -58,6 +59,7 @@ HEADERS += \
     source/Modules/Renderer/Interface/ITexture2D.h \
     source/Modules/Renderer/Interface/IVertexArray.h \
     source/Modules/Renderer/OpenGL/OpenGLIndexBuffer.h \
+    source/Modules/Renderer/OpenGL/OpenGLRenderer.h \
     source/Modules/Renderer/OpenGL/OpenGLShader.h \
     source/Modules/Renderer/OpenGL/OpenGLTexture2D.h \
     source/Modules/Renderer/OpenGL/OpenGLVertexArray.h \

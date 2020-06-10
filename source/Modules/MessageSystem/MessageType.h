@@ -9,6 +9,9 @@ enum class MessageType
 	Unknown,
 	LoadModel,
 	ObjectListChanged,
+	GetTransform,
+	SetTransform,
+	UpdateTransformUI,
 	Shutdown
 };
 
@@ -21,6 +24,9 @@ const std::map<MessageType, std::string> s_messageTypeToString =
 	{MessageType::Unknown, "Unknown"},
 	{MessageType::LoadModel, "LoadModel"},
 	{MessageType::ObjectListChanged, "ObjectListChanged"},
+	{MessageType::GetTransform, "GetTransform"},
+	{MessageType::SetTransform, "SetTransform"},
+	{MessageType::UpdateTransformUI, "UpdateTransformUI"},
 	{MessageType::Shutdown, "Shutdown"}
 };
 
