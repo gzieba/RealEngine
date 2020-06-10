@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 class Model;
 class Mesh;
@@ -12,13 +13,13 @@ class aiMesh;
 class ModelLoader
 {
 public:
-	ModelLoader();
-	Model* loadModel(std::string filePath);
+	ModelLoader() = default;
+	std::unique_ptr<Model> loadModel(std::string filePath);
 
 private:
 	void processNode(aiNode* node, const aiScene* scene);
-	Mesh* processMesh(aiMesh* mesh, const aiScene* scene);
+	std::unique_ptr<Mesh> processMesh(aiMesh* mesh, const aiScene* scene);
 
-	std::vector<Mesh*> m_meshes;
+	std::vector<std::unique_ptr<Mesh>> m_meshes;
 
 };

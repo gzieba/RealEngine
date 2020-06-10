@@ -9,12 +9,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-ModelLoader::ModelLoader()
-{
-
-}
-
-Model* ModelLoader::loadModel(std::string filePath)
+std::unique_ptr<Model> ModelLoader::loadModel(std::string filePath)
 {
 	Assimp::Importer importer;
 
@@ -30,7 +25,7 @@ Model* ModelLoader::loadModel(std::string filePath)
 
 	processNode(scene->mRootNode, scene);
 
-	return new Model(m_meshes);
+	return std::make_unique<Model>(Model(std::move(m_meshes)));
 }
 
 void ModelLoader::processNode(aiNode *node, const aiScene *scene)
@@ -47,7 +42,7 @@ void ModelLoader::processNode(aiNode *node, const aiScene *scene)
 	}
 }
 
-Mesh* ModelLoader::processMesh(aiMesh *mesh, const aiScene*)
+std::unique_ptr<Mesh> ModelLoader::processMesh(aiMesh *mesh, const aiScene*)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
@@ -90,5 +85,5 @@ Mesh* ModelLoader::processMesh(aiMesh *mesh, const aiScene*)
 
 	// TODO: adding texture loading
 
-	return new Mesh(vertices, indices);
+	return std::make_unique<Mesh>(Mesh(vertices, indices));
 }

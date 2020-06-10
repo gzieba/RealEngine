@@ -12,7 +12,6 @@ class ObjectManager : public Messenger
 {
 public:
 	explicit ObjectManager() = default;
-	virtual ~ObjectManager() = default;
 
 	void handleMessage(const Message &) override;
 

@@ -2,13 +2,14 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
-class Mesh;
+#include "Mesh.h"
 
 class Model
 {
-	std::vector<Mesh*> m_meshes;
+	std::vector<std::unique_ptr<Mesh>> m_meshes;
 public:
-	Model(std::vector<Mesh*> meshes);
+	Model(std::vector<std::unique_ptr<Mesh>> meshes);
 };
 

@@ -1,9 +1,7 @@
 #include "Model.h"
 
-#include "Mesh.h"
-
-Model::Model(std::vector<Mesh*> meshes)
-	: m_meshes(meshes)
+Model::Model(std::vector<std::unique_ptr<Mesh>> meshes)
+	: m_meshes(std::move(meshes))
 {
 
 }

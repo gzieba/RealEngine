@@ -1,15 +1,7 @@
 #include "Object.h"
 
-#include "Model/Model.h"
-
-
-Object::Object()
-{
-
-}
-
-Object::Object(std::string name, Model *model)
-	: m_model(model)
+Object::Object(std::string name, std::unique_ptr<Model> model)
+	: m_model(std::move(model))
 	, m_name(name)
 {
 
@@ -28,9 +20,4 @@ void Object::setTransform(Transform transform)
 std::string Object::getName() const
 {
 	return m_name;
-}
-
-Object::~Object()
-{
-	delete m_model;
 }

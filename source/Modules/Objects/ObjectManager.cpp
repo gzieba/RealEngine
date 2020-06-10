@@ -39,6 +39,6 @@ void ObjectManager::loadModel(std::string data)
 		LOG(WARNING) << LOCATION << "Model is nullptr";
 		return;
 	}
-	m_objects.push_back(std::make_unique<Object>(Object(modelName, model)));
+	m_objects.push_back(std::make_unique<Object>(Object(modelName, std::move(model))));
 	sendMessage({MessageType::ObjectListChanged, std::pair<int, std::string>(m_objects.size() - 1, modelName)});
 }
