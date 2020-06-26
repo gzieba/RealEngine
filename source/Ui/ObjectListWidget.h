@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "Modules/MessageSystem/Messenger.h"
-#include "Modules/Objects/Components/Transform.h"
+#include "Common/Components/Transform.h"
 
 class Object;
 

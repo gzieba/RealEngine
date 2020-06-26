@@ -3,7 +3,7 @@
 
 #include "Common/logging.h"
 
-#include "Modules/Objects/Components/Transform.h"
+#include "Common/Components/Transform.h"
 #include <limits>
 
 namespace

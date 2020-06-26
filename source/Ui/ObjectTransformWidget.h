@@ -4,7 +4,7 @@
 #include "Common/glm/glm.hpp"
 #include "Modules/MessageSystem/Messenger.h"
 
-#include "Modules/Objects/Components/Transform.h"
+#include "Common/Components/Transform.h"
 
 namespace Ui {
 class ObjectTransformWidget;

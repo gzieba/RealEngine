@@ -19,8 +19,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     source/Common/easyloggingpp/easylogging++.cc \
+    source/Common/Components/Transform.cpp \
     source/Modules/MessageSystem/Message.cpp \
-    source/Modules/Objects/Components/Transform.cpp \
     source/Modules/Objects/Model/Mesh.cpp \
     source/Modules/Objects/Model/Model.cpp \
     source/Modules/Objects/Model/ModelLoader.cpp \
@@ -28,6 +28,7 @@ SOURCES += \
     source/Modules/Objects/ObjectManager.cpp \
     source/Modules/Renderer/OpenGL/OpenGLIndexBuffer.cpp \
     source/Modules/Renderer/OpenGL/OpenGLRenderer.cpp \
+    source/Modules/Renderer/OpenGL/OpenGLRenderingObject.cpp \
     source/Modules/Renderer/OpenGL/OpenGLShader.cpp \
     source/Modules/Renderer/OpenGL/OpenGLTexture2D.cpp \
     source/Modules/Renderer/OpenGL/OpenGLVertexArray.cpp \
@@ -46,9 +47,9 @@ SOURCES += \
 HEADERS += \
     source/Common/easyloggingpp/easylogging++.h \
     source/Common/logging.h \
+    source/Common/Components/Transform.h \
     source/Modules/MessageSystem/Message.h \
     source/Modules/MessageSystem/MessageType.h \
-    source/Modules/Objects/Components/Transform.h \
     source/Modules/Objects/Model/Mesh.h \
     source/Modules/Objects/Model/Model.h \
     source/Modules/Objects/Model/ModelLoader.h \
@@ -56,6 +57,7 @@ HEADERS += \
     source/Modules/Objects/ObjectManager.h \
     source/Modules/Renderer/OpenGL/OpenGLIndexBuffer.h \
     source/Modules/Renderer/OpenGL/OpenGLRenderer.h \
+    source/Modules/Renderer/OpenGL/OpenGLRenderingObject.h \
     source/Modules/Renderer/OpenGL/OpenGLShader.h \
     source/Modules/Renderer/OpenGL/OpenGLTexture2D.h \
     source/Modules/Renderer/OpenGL/OpenGLVertexArray.h \

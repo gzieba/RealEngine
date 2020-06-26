@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 
-#include "Components/Transform.h"
+#include "Common/Components/Transform.h"
 #include "Model/Model.h"
 
 class Object
