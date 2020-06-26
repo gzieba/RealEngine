@@ -3,6 +3,12 @@
 #include "Common/logging.h"
 #include "Model/ModelLoader.h"
 
+ObjectManager::ObjectManager()
+	: m_objects(std::make_shared<std::vector<std::unique_ptr<Object>>>())
+{
+
+}
+
 void ObjectManager::handleMessage(const Message& message)
 {
 	switch (message.getMessageType())
@@ -15,18 +21,23 @@ void ObjectManager::handleMessage(const Message& message)
 		case MessageType::GetTransform:
 		{
 			auto id = message.getData<int>();
-			sendMessage({Message(MessageType::UpdateTransformUI, m_objects[id]->getTransform())});
+			sendMessage({Message(MessageType::UpdateTransformUI, m_objects->at(id)->getTransform())});
 			return;
 		}
 		case MessageType::SetTransform:
 		{
 			auto data = message.getData<std::pair<int, Transform>>();
-			m_objects[data.first]->setTransform(data.second);
+			m_objects->at(data.first)->setTransform(data.second);
 			return;
 		}
 		default:
 			return;
 	}
+}
+
+auto ObjectManager::getObjects() const
+{
+	return m_objects;
 }
 
 void ObjectManager::loadModel(std::string data)
@@ -39,6 +50,6 @@ void ObjectManager::loadModel(std::string data)
 		LOG(WARNING) << LOCATION << "Model is nullptr";
 		return;
 	}
-	m_objects.push_back(std::make_unique<Object>(Object(modelName, std::move(model))));
-	sendMessage({MessageType::ObjectListChanged, std::pair<int, std::string>(m_objects.size() - 1, modelName)});
+	m_objects->push_back(std::make_unique<Object>(Object(modelName, std::move(model))));
+	sendMessage({MessageType::ObjectListChanged, std::pair<int, std::string>(m_objects->size() - 1, modelName)});
 }

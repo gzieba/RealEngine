@@ -6,18 +6,17 @@
 #include <memory>
 #include <vector>
 
-class Object;
-
 class ObjectManager : public Messenger
 {
 public:
-	explicit ObjectManager() = default;
+	explicit ObjectManager();
 
 	void handleMessage(const Message &) override;
+	auto getObjects() const;
 
 private:
 	void loadModel(std::string data);
 
-	std::vector<std::unique_ptr<Object>> m_objects;
+	std::shared_ptr<std::vector<std::unique_ptr<Object>>> m_objects;
 };
 

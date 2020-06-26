@@ -1,17 +1,17 @@
 #pragma once
 
-#include "Modules/Renderer/Interface/IShader.h"
+#include <variant>
+#include "Common/glm/glm.hpp"
 
 enum class ShaderType;
 
-class OpenGLShader : public IShader
+class OpenGLShader
 {
 public:
 	OpenGLShader(const ShaderType vertexShaderType, const ShaderType fragmentShaderType);
-	virtual ~OpenGLShader() = default;
 
-	virtual void useShader() const override;
-	virtual void setUniform(const char* name, std::variant<int, float, glm::vec3, glm::mat4> value) const override;
+	void useShader() const;
+	void setUniform(const char* name, std::variant<int, float, glm::vec3, glm::mat4> value) const;
 
 private:
 	void compileShaders();

@@ -26,7 +26,6 @@ SOURCES += \
     source/Modules/Objects/Model/ModelLoader.cpp \
     source/Modules/Objects/Object.cpp \
     source/Modules/Objects/ObjectManager.cpp \
-    source/Modules/Renderer/Interface/ITexture2D.cpp \
     source/Modules/Renderer/OpenGL/OpenGLIndexBuffer.cpp \
     source/Modules/Renderer/OpenGL/OpenGLRenderer.cpp \
     source/Modules/Renderer/OpenGL/OpenGLShader.cpp \
@@ -55,9 +54,6 @@ HEADERS += \
     source/Modules/Objects/Model/ModelLoader.h \
     source/Modules/Objects/Object.h \
     source/Modules/Objects/ObjectManager.h \
-    source/Modules/Renderer/Interface/IShader.h \
-    source/Modules/Renderer/Interface/ITexture2D.h \
-    source/Modules/Renderer/Interface/IVertexArray.h \
     source/Modules/Renderer/OpenGL/OpenGLIndexBuffer.h \
     source/Modules/Renderer/OpenGL/OpenGLRenderer.h \
     source/Modules/Renderer/OpenGL/OpenGLShader.h \
@@ -66,6 +62,7 @@ HEADERS += \
     source/Modules/Renderer/OpenGL/OpenGLVertexBuffer.h \
     source/Modules/Renderer/Renderer.h \
     source/Modules/Renderer/ShaderType.h \
+    source/Modules/Renderer/TextureType.h \
     source/Modules/Renderer/Vertex.h \
     source/RealEngine.h \
     source/Ui/FileMenu.h \

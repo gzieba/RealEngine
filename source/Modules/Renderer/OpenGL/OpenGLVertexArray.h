@@ -3,20 +3,18 @@
 #include <memory>
 #include <vector>
 
-#include "Modules/Renderer/Interface/IVertexArray.h"
-
 class OpenGLIndexBuffer;
 class OpenGLVertexBuffer;
 class Vertex;
 
-class OpenGLVertexArray : public IVertexArray
+class OpenGLVertexArray
 {
 public:
 	OpenGLVertexArray(std::vector<Vertex>& vertexData, std::vector<unsigned int>& indexData);
-	virtual ~OpenGLVertexArray();
+	~OpenGLVertexArray();
 
-	void bind() const override;
-	void unbind() const override;
+	void bind() const;
+	void unbind() const;
 
 private:
 	unsigned int m_vertexArrayObject;
