@@ -20,7 +20,40 @@ Renderer::~Renderer()
 	delete m_openGLRenderer;
 }
 
+void Renderer::run()
+{
+	bool shouldExit = false;
+	while(!shouldExit)
+	{
+		m_mutex.lock();
+		if(!m_messageQueue.empty())
+		{
+			auto message = m_messageQueue.front();
+			m_mutex.unlock();
+			LOG(TRACE) << messageTypeToString(message.getMessageType());
+			processMessage(message);
+			m_messageQueue.pop();
+			if(message.getMessageType() == MessageType::Shutdown)
+				shouldExit = true;
+		}
+		else
+		{
+			m_mutex.unlock();
+			std::unique_lock<std::mutex> lock(m_mutex);
+			m_conditionVariable.wait(lock);
+		}
+
+	}
+}
+
 void Renderer::handleMessage(const Message& message)
+{
+	std::lock_guard<std::mutex> lock(m_mutex);
+	m_messageQueue.push(message);
+	m_conditionVariable.notify_one();
+}
+
+void Renderer::processMessage(const Message &message)
 {
 	switch (message.getMessageType())
 	{
