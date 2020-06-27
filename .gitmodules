@@ -1,0 +1,9 @@
+[submodule "third-party/glfw"]
+	path = third-party/glfw
+	url = git@github.com:gzieba/glfw.git
+[submodule "third-party/imgui"]
+	path = third-party/imgui
+	url = git@github.com:gzieba/imgui.git
+[submodule "third-party/assimp"]
+	path = third-party/assimp
+	url = git@github.com:gzieba/assimp.git
