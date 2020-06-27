@@ -6,3 +6,13 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices)
 {
 
 }
+
+std::vector<unsigned int> Mesh::getIndices() const
+{
+	return m_indices;
+}
+
+std::vector<Vertex> Mesh::getVertices() const
+{
+	return m_vertices;
+}

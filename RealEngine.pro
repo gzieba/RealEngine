@@ -45,6 +45,7 @@ SOURCES += \
     third-party/glad/glad.c
 
 HEADERS += \
+    source/Common/Components/Vertex.h \
     source/Common/easyloggingpp/easylogging++.h \
     source/Common/logging.h \
     source/Common/Components/Transform.h \
@@ -65,7 +66,6 @@ HEADERS += \
     source/Modules/Renderer/Renderer.h \
     source/Modules/Renderer/ShaderType.h \
     source/Modules/Renderer/TextureType.h \
-    source/Modules/Renderer/Vertex.h \
     source/RealEngine.h \
     source/Ui/FileMenu.h \
     source/Ui/MainWindow.h \

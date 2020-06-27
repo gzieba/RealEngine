@@ -31,7 +31,7 @@ void ObjectListWidget::setObjectTransformWidget(QWidget *widget)
 	connect(dynamic_cast<ObjectTransformWidget*>(m_objectTransformWidget), &ObjectTransformWidget::transformUpdated,
 			[this](Transform transform){
 		if(currentRow() >= 0)
-			sendMessage({MessageType::SetTransform, std::pair<int, Transform>(m_objects[currentRow()].first, transform)});
+			sendMessage({MessageType::SetTransform, std::pair<unsigned int, Transform>(m_objects[currentRow()].first, transform)});
 	});
 }
 

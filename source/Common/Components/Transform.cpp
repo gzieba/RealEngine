@@ -36,3 +36,15 @@ void Transform::setScale(glm::vec3 scale)
 {
 	m_scale = scale;
 }
+
+std::ostream& operator<<(std::ostream& os, const glm::vec3& vec)
+{
+	os << "[" << vec.x << ", " << vec.y << ", " << vec.z << "]";
+	return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const Transform& transform)
+{
+	os << transform.getPosition() << "\n" << transform.getRotation() << "\n" << transform.getScale();
+	return os;
+}

@@ -2,6 +2,8 @@
 
 #include "Common/glm/glm.hpp"
 
+#include <iostream>
+
 class Transform
 {
 	glm::vec3 m_position;
@@ -18,5 +20,7 @@ public:
 
 	glm::vec3 getScale() const;
 	void setScale(glm::vec3 scale);
-};
 
+	friend std::ostream& operator<<(std::ostream& os, const glm::vec3& vec);
+	friend std::ostream& operator<<(std::ostream& os, const Transform& transform);
+};

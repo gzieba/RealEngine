@@ -21,3 +21,8 @@ std::string Object::getName() const
 {
 	return m_name;
 }
+
+const std::unique_ptr<Model> &Object::getModel() const
+{
+	return m_model;
+}

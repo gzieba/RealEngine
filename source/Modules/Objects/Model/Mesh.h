@@ -1,14 +1,8 @@
 #pragma once
 
-#include "Common/glm/glm.hpp"
 #include <vector>
 
-struct Vertex
-{
-	glm::vec3 position;
-	glm::vec3 normal;
-	glm::vec2 texCoords;
-};
+#include "Common/Components/Vertex.h"
 
 class Mesh
 {
@@ -18,4 +12,6 @@ class Mesh
 
 public:
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
+	std::vector<unsigned int> getIndices() const;
+	std::vector<Vertex> getVertices() const;
 };

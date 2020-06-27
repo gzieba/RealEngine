@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-#include "Modules/Renderer/Vertex.h"
+#include "Common/Components/Vertex.h"
 
 namespace
 {

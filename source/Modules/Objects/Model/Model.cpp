@@ -5,3 +5,8 @@ Model::Model(std::vector<std::unique_ptr<Mesh>> meshes)
 {
 
 }
+
+const std::vector<std::unique_ptr<Mesh> > &Model::getMeshes() const
+{
+	return m_meshes;
+}

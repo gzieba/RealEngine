@@ -4,7 +4,7 @@
 #include "Model/ModelLoader.h"
 
 ObjectManager::ObjectManager()
-	: m_objects(std::make_shared<std::vector<std::unique_ptr<Object>>>())
+	: m_currentID(0)
 {
 
 }
@@ -21,23 +21,23 @@ void ObjectManager::handleMessage(const Message& message)
 		case MessageType::GetTransform:
 		{
 			auto id = message.getData<int>();
-			sendMessage({Message(MessageType::UpdateTransformUI, m_objects->at(id)->getTransform())});
+			sendMessage({Message(MessageType::UpdateTransformUI, m_objects.at(id).second->getTransform())});
 			return;
 		}
 		case MessageType::SetTransform:
 		{
-			auto data = message.getData<std::pair<int, Transform>>();
-			m_objects->at(data.first)->setTransform(data.second);
+			auto data = message.getData<std::pair<unsigned int, Transform>>();
+
+			for(auto& object : m_objects)
+			{
+				if(object.first == static_cast<unsigned int>(data.first))
+					object.second->setTransform(data.second);
+			}
 			return;
 		}
 		default:
 			return;
 	}
-}
-
-auto ObjectManager::getObjects() const
-{
-	return m_objects;
 }
 
 void ObjectManager::loadModel(std::string data)
@@ -50,6 +50,14 @@ void ObjectManager::loadModel(std::string data)
 		LOG(WARNING) << LOCATION << "Model is nullptr";
 		return;
 	}
-	m_objects->push_back(std::make_unique<Object>(Object(modelName, std::move(model))));
-	sendMessage({MessageType::ObjectListChanged, std::pair<int, std::string>(m_objects->size() - 1, modelName)});
+	m_objects.push_back({++m_currentID, std::make_unique<Object>(Object(modelName, std::move(model)))});
+	sendMessage({MessageType::ObjectListChanged, std::pair<int, std::string>(m_currentID, modelName)});
+	addToRenderQueue(m_objects.back().second);
+}
+
+void ObjectManager::addToRenderQueue(const std::unique_ptr<Object> &object)
+{
+	for(const auto& mesh : object->getModel()->getMeshes())
+		sendMessage({MessageType::AddToRenderQueue, std::tuple<unsigned int, Transform, std::vector<Vertex>, std::vector<unsigned int>>(
+					 m_currentID, object->getTransform(), mesh->getVertices(), mesh->getIndices())});
 }

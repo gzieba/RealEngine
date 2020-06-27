@@ -17,4 +17,5 @@ public:
 	Transform getTransform() const;
 	void setTransform(Transform transform);
 	std::string getName() const;
+	const std::unique_ptr<Model>& getModel() const;
 };

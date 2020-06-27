@@ -12,11 +12,12 @@ public:
 	explicit ObjectManager();
 
 	void handleMessage(const Message &) override;
-	auto getObjects() const;
 
 private:
+	unsigned int m_currentID;
 	void loadModel(std::string data);
+	void addToRenderQueue(const std::unique_ptr<Object>& object);
 
-	std::shared_ptr<std::vector<std::unique_ptr<Object>>> m_objects;
+	std::vector<std::pair<unsigned int, std::unique_ptr<Object>>> m_objects;
 };
 

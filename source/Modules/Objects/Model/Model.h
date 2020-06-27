@@ -11,5 +11,6 @@ class Model
 	std::vector<std::unique_ptr<Mesh>> m_meshes;
 public:
 	Model(std::vector<std::unique_ptr<Mesh>> meshes);
+	const std::vector<std::unique_ptr<Mesh>>& getMeshes() const;
 };
 
