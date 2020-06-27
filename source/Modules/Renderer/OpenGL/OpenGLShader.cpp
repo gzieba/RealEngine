@@ -9,7 +9,6 @@
 namespace
 {
 constexpr auto SHADER_COUNT = 1;
-constexpr auto SHADER_LENGTH = 0;
 
 const std::string VERTEX_SHADER_SOURCE =
 		#include "Shaders/vertex_shader.glsl"
@@ -70,7 +69,7 @@ void OpenGLShader::compileShaders()
 	const char* fragmentShaderSource[] = { shaderSource(m_fragmentShaderType) };
 
 	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, SHADER_COUNT, vertexShaderSource, &SHADER_LENGTH);
+	glShaderSource(vertexShader, SHADER_COUNT, vertexShaderSource, 0);
 	glCompileShader(vertexShader);
 
 	int vertexCompileSucceded;
@@ -84,7 +83,7 @@ void OpenGLShader::compileShaders()
 	}
 
 	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, SHADER_COUNT, fragmentShaderSource, &SHADER_LENGTH);
+	glShaderSource(fragmentShader, SHADER_COUNT, fragmentShaderSource, 0);
 	glCompileShader(fragmentShader);
 
 	int fragmentCompileSucceded;

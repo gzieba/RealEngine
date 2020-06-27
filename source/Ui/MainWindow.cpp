@@ -4,12 +4,20 @@
 #include "FileMenu.h"
 #include "Ui/ObjectListWidget.h"
 
+#include <QOpenGLContext>
+
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 	, m_ui(new Ui::MainWindow)
 {
 	m_ui->setupUi(this);
 	m_ui->fileList->setObjectTransformWidget(m_ui->widget);
+	QSurfaceFormat format;
+	format.setProfile(QSurfaceFormat::OpenGLContextProfile::CoreProfile);
+	format.setMajorVersion(4);
+	format.setMinorVersion(5);
+	format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
+	m_ui->openGLWidget->setFormat(format);
 	m_ui->openGLWidget->makeCurrent();
 	setupMenu();
 
@@ -25,7 +33,10 @@ MainWindow::~MainWindow()
 void MainWindow::handleMessage(const Message &message)
 {
 	if(message.getMessageType() == MessageType::Test)
+	{
+//		m_ui->openGLWidget->makeCurrent();
 		LOG(TRACE) << "Button was pressed";
+	}
 }
 
 void MainWindow::closeEvent(QCloseEvent *)

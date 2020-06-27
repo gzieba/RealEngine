@@ -10,9 +10,9 @@
 #include "Modules/Objects/Object.h"
 
 Renderer::Renderer()
-	: m_openGLRenderer(new OpenGLRenderer())
+	: m_openGLRenderer(new OpenGLRenderer(m_objects))
 {
-
+	m_openGLRenderer->drawFrame();
 }
 
 Renderer::~Renderer()
@@ -36,7 +36,11 @@ void Renderer::handleMessage(const Message& message)
 		{
 			const auto data = message.getData<std::pair<unsigned int, Transform>>();
 			updateTransform(data.first, data.second);
-			LOG(INFO) << LOCATION << "Updating transform in rendering object: \n" << data.second;
+			LOG(TRACE) << LOCATION << "Updating transform in rendering object: \n" << data.second;
+			return;
+		}
+		case MessageType::Test:
+		{
 			return;
 		}
 		default:
