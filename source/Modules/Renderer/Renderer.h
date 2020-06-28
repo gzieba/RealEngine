@@ -11,6 +11,7 @@
 class OpenGLRenderer;
 class OpenGLRenderingObject;
 class Transform;
+class Window;
 
 class Renderer : public Messenger
 {
@@ -26,6 +27,7 @@ private:
 
 	OpenGLRenderer* m_openGLRenderer;
 	std::vector<OpenGLRenderingObject> m_objects;
+	Window* m_window;
 
 	std::queue<Message> m_messageQueue;
 	std::mutex m_mutex;

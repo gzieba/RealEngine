@@ -15,12 +15,6 @@
 OpenGLRenderer::OpenGLRenderer(const std::vector<OpenGLRenderingObject> &renderingObjects)
 	: m_renderingObjects(renderingObjects)
 {
-	if(!gladLoadGL())
-	{
-		LOG(FATAL) << LOCATION << "Failed to initialize GLAD";
-	}
-
-	LOG(INFO) << LOCATION << "OpenGLRenderer initialized";
 	m_shader = std::make_unique<OpenGLShader>(ShaderType::OpenGLVertexShader, ShaderType::OpenGLFragmentShader);
 }
 

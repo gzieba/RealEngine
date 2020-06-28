@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "OpenGL/OpenGLRenderer.h"
+#include "Window.h"
 
 #include "Common/Components/Vertex.h"
 #include "Common/Components/Transform.h"
@@ -10,9 +11,9 @@
 #include "Modules/Objects/Object.h"
 
 Renderer::Renderer()
-	: m_openGLRenderer(new OpenGLRenderer(m_objects))
 {
-	m_openGLRenderer->drawFrame();
+	m_window = new Window();
+	m_openGLRenderer = new OpenGLRenderer(m_objects);
 }
 
 Renderer::~Renderer()

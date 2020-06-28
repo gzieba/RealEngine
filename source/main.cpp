@@ -7,5 +7,6 @@ INITIALIZE_EASYLOGGINGPP
 int main(int argc, char *argv[])
 {
 	RealEngine r;
+	r.run();
 	return 0;
 }
