@@ -1,7 +1,7 @@
 #include "OpenGLShader.h"
 
 #include <glad/glad.h>
-#include "Common/glm/gtc/type_ptr.hpp"
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Modules/Renderer/ShaderType.h"
 #include "Common/logging.h"

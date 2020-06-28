@@ -12,13 +12,11 @@ link_directories(RealEngine PUBLIC lib)
 
 add_executable(RealEngine ${SOURCES} ${HEADERS})
 
-target_include_directories(RealEngine PUBLIC include source)
+target_include_directories(RealEngine PUBLIC source third-party/glad/include)
 
 if(UNIX)
-    target_link_libraries(RealEngine glfw3 assimp glad pthread X11 ${CMAKE_DL_LIBS})
+    target_link_libraries(RealEngine glfw glad assimp pthread X11 ${CMAKE_DL_LIBS})
 endif()
 if(WIN32)
-    target_link_libraries(RealEngine glfw3 assimp glad)
+    target_link_libraries(RealEngine glfw glad assimp)
 endif()
-
-

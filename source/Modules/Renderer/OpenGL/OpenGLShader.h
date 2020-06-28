@@ -1,7 +1,7 @@
 #pragma once
 
 #include <variant>
-#include "Common/glm/glm.hpp"
+#include <glm/glm.hpp>
 
 enum class ShaderType;
 

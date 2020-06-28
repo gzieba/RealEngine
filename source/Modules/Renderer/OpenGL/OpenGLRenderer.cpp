@@ -3,9 +3,11 @@
 #include <glad/glad.h>
 
 #include "Common/logging.h"
-#include "Common/glm/glm.hpp"
-#include "Common/glm/gtc/matrix_transform.hpp"
-#include "Common/glm/gtx/euler_angles.hpp"
+
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/euler_angles.hpp>
 
 #include "OpenGLRenderingObject.h"
 #include "Modules/Renderer/ShaderType.h"
@@ -46,7 +48,7 @@ void OpenGLRenderer::clear()
 void OpenGLRenderer::setupTransform(const OpenGLRenderingObject &object)
 {
 
-		glm::mat4 modelMatrix = glm::identity<glm::mat4>();
+		glm::mat4 modelMatrix = glm::mat4(1.0f);
 		modelMatrix = glm::translate(modelMatrix, object.getTransform().getPosition());
 
 		glm::vec3 currentRotation = object.getTransform().getRotation();
