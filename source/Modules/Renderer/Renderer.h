@@ -8,6 +8,7 @@
 #include <queue>
 #include <condition_variable>
 
+class ImGuiManager;
 class OpenGLRenderer;
 class OpenGLRenderingObject;
 class Transform;
@@ -28,6 +29,7 @@ private:
 	OpenGLRenderer* m_openGLRenderer;
 	std::vector<OpenGLRenderingObject> m_objects;
 	Window* m_window;
+	ImGuiManager* m_imGuiManager;
 
 	std::queue<Message> m_messageQueue;
 	std::mutex m_mutex;

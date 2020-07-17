@@ -14,6 +14,7 @@ enum class MessageType
 	UpdateTransformUI,
 	AddToRenderQueue,
 	RemoveFromRenderQueue,
+	NewFrame,
 	Shutdown
 };
 
@@ -30,6 +31,7 @@ const std::map<MessageType, std::string> s_messageTypeToString =
 	{MessageType::SetTransform, "SetTransform"},
 	{MessageType::UpdateTransformUI, "UpdateTransformUI"},
 	{MessageType::AddToRenderQueue, "AddToRenderQueue"},
+	{MessageType::NewFrame, "NewFrame"},
 	{MessageType::Shutdown, "Shutdown"}
 };
 

@@ -8,7 +8,7 @@
 namespace
 {
 constexpr auto REQUIRED_OPENGL_VERSION_MAJOR = 4;
-constexpr auto REQUIRED_OPENGL_VERSION_MINOR = 0;
+constexpr auto REQUIRED_OPENGL_VERSION_MINOR = 1;
 constexpr auto VIEWPORT_POSITION_X = 0;
 constexpr auto VIEWPORT_POSITION_Y = 0;
 }
@@ -48,17 +48,6 @@ Window::Window(unsigned int width, unsigned int height, const char *windowTitle)
 
 	LOG(INFO) << LOCATION << "OpenGLRenderer initialized";
 
-	viewport();
-}
-
-Window::~Window()
-{
-	glfwDestroyWindow(m_window);
-	LOG(INFO) << LOCATION << "Window destroyed.";
-}
-
-void Window::viewport()
-{
 	glViewport(VIEWPORT_POSITION_X, VIEWPORT_POSITION_Y, m_width, m_height);
 
 	glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow*, int width, int height)
@@ -66,6 +55,17 @@ void Window::viewport()
 		LOG(INFO) << LOCATION << "Window resized. Updating viewport.";
 		glViewport(VIEWPORT_POSITION_X, VIEWPORT_POSITION_Y, width, height);
 	});
+
+	glfwSetWindowCloseCallback(m_window, [](GLFWwindow*)
+	{
+		(new Messenger())->sendMessage(MessageType::Shutdown); // TODO: memory leak when shutting down window
+	});
+}
+
+Window::~Window()
+{
+	glfwDestroyWindow(m_window);
+	LOG(INFO) << LOCATION << "Window destroyed.";
 }
 
 GLFWwindow* Window::getWindow() const
@@ -81,4 +81,9 @@ unsigned int Window::getWidth() const
 unsigned int Window::getHeight() const
 {
 	return m_height;
+}
+
+void Window::swapBuffers() const
+{
+	glfwSwapBuffers(m_window);
 }

@@ -1,0 +1,19 @@
+file(GLOB_RECURSE IMGUI_SOURCE /
+${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_draw.cpp  /
+${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_widgets.cpp /
+${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp /
+${CMAKE_SOURCE_DIR}/third-party/imgui/examples/imgui_impl_opengl3.cpp  /
+${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp  /
+${CMAKE_SOURCE_DIR}/third-party/imgui/examples/imgui_impl_glfw.cpp /
+)
+
+file(GLOB_RECURSE IMGUI_HEADER /
+${CMAKE_SOURCE_DIR}/third-party/imgui/imconfig.h  /
+${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_impl_glfw.h /
+${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_internal.h  /
+${CMAKE_SOURCE_DIR}/third-party/imgui/imstb_truetype.h  /
+${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.h /
+${CMAKE_SOURCE_DIR}/third-party/imgui/imstb_rectpack.h  /
+${CMAKE_SOURCE_DIR}/third-party/imgui/examples/imgui_impl_opengl3.h  /
+${CMAKE_SOURCE_DIR}/third-party/imgui/imstb_textedit.h  /
+)

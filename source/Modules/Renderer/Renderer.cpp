@@ -10,15 +10,22 @@
 
 #include "Modules/Objects/Object.h"
 
+#include "ImGuiManager.h"
+
+#include <thread>
+
 Renderer::Renderer()
 {
 	m_window = new Window();
+	m_imGuiManager = new ImGuiManager(m_window->getWindow());
 	m_openGLRenderer = new OpenGLRenderer(m_objects);
 }
 
 Renderer::~Renderer()
 {
 	delete m_openGLRenderer;
+	delete m_imGuiManager;
+	delete m_window;
 }
 
 void Renderer::run()
@@ -26,6 +33,11 @@ void Renderer::run()
 	bool shouldExit = false;
 	while(!shouldExit)
 	{
+		m_imGuiManager->newFrame();
+		m_window->swapBuffers();
+		LOG(TRACE) << LOCATION << "swapping";
+		sendMessage(MessageType::Test);
+		std::this_thread::sleep_for(std::chrono::duration(std::chrono::milliseconds(200)));
 		m_mutex.lock();
 		if(!m_messageQueue.empty())
 		{
