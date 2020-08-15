@@ -12,8 +12,6 @@
 
 #include "ImGuiManager.h"
 
-#include <thread>
-
 Renderer::Renderer()
 {
 	m_window = new Window();
@@ -33,29 +31,19 @@ void Renderer::run()
 	bool shouldExit = false;
 	while(!shouldExit)
 	{
+		m_openGLRenderer->drawFrame();
 		m_imGuiManager->newFrame();
 		m_window->swapBuffers();
-		LOG(TRACE) << LOCATION << "swapping";
-		sendMessage(MessageType::Test);
-		std::this_thread::sleep_for(std::chrono::duration(std::chrono::milliseconds(200)));
-		m_mutex.lock();
+		std::lock_guard<std::mutex> lock(m_mutex);
 		if(!m_messageQueue.empty())
 		{
 			auto message = m_messageQueue.front();
-			m_mutex.unlock();
 			LOG(TRACE) << messageTypeToString(message.getMessageType());
 			processMessage(message);
 			m_messageQueue.pop();
 			if(message.getMessageType() == MessageType::Shutdown)
 				shouldExit = true;
 		}
-		else
-		{
-			m_mutex.unlock();
-			std::unique_lock<std::mutex> lock(m_mutex);
-			m_conditionVariable.wait(lock);
-		}
-
 	}
 }
 
@@ -63,7 +51,6 @@ void Renderer::handleMessage(const Message& message)
 {
 	std::lock_guard<std::mutex> lock(m_mutex);
 	m_messageQueue.push(message);
-	m_conditionVariable.notify_one();
 }
 
 void Renderer::processMessage(const Message &message)

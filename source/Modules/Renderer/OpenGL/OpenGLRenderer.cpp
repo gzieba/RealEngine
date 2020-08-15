@@ -20,7 +20,6 @@ OpenGLRenderer::OpenGLRenderer(const std::vector<OpenGLRenderingObject> &renderi
 
 void OpenGLRenderer::drawFrame()
 {
-	LOG(TRACE) << LOCATION << "Drawing frame";
 	clear();
 	for(const auto& object : m_renderingObjects)
 	{

@@ -8,6 +8,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "Common/logging.h"
+
 namespace
 {
 constexpr auto GLSL_VERSION = "#version 410";
@@ -91,7 +93,10 @@ void ImGuiManager::newFrame()
 		ImGui::ColorEdit3("clear color", (float*)&m_clearColor); // Edit 3 floats representing a color
 
 		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+		{
 			counter++;
+			m_messenger.sendMessage(MessageType::Test);
+		}
 		ImGui::SameLine();
 		ImGui::Text("counter = %d", counter);
 

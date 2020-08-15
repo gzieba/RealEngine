@@ -1,4 +1,5 @@
 #pragma once
+#include "Modules/MessageSystem/Messenger.h"
 
 struct GLFWwindow;
 class ImVec4;
@@ -15,4 +16,5 @@ private:
 	bool m_showAnotherWindow;
 	ImVec4* m_clearColor;
 
+	Messenger m_messenger;
 };

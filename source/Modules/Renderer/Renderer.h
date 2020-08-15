@@ -33,6 +33,5 @@ private:
 
 	std::queue<Message> m_messageQueue;
 	std::mutex m_mutex;
-	std::condition_variable m_conditionVariable;
 };
 
