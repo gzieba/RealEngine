@@ -48,7 +48,7 @@ ImGuiManager::ImGuiManager(GLFWwindow* window)
 	//IM_ASSERT(font != NULL);
 
 	  // Our state
-	m_showDemoWindow = true;
+	m_showDemoWindow = false;
 	m_showAnotherWindow = false;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 }
@@ -99,7 +99,10 @@ void ImGuiManager::newFrame()
 		}
 		ImGui::SameLine();
 		ImGui::Text("counter = %d", counter);
-
+		if(ImGui::Button("DUPA"))
+		{
+			m_messenger.sendMessage({MessageType::LoadModel, std::string("/home/gzieba/Downloads/cube.obj")});
+		}
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::End();
 	}

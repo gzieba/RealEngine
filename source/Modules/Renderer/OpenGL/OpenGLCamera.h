@@ -19,14 +19,14 @@ class OpenGLCamera
 public:
 	OpenGLCamera(Window* window);
 
-	glm::mat4 GetViewMatrix() const;
-	void LookAt(glm::vec3 position);
-	void Update();
-	float GetFOV() const;
-	glm::vec3 GetPosition() const;
+	glm::mat4 getViewMatrix() const;
+	void lookAt(glm::vec3 position);
+	void update();
+	float getFOV() const;
+	glm::vec3 getPosition() const;
 
 private:
-	void MouseInput(float xPosition, float yPosition);
+	void mouseInput(float xPosition, float yPosition);
 
 	float m_mouseSensitivity = 0.05f;
 

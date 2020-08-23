@@ -22,9 +22,10 @@ OpenGLRenderer::OpenGLRenderer(std::vector<OpenGLRenderingObject> &renderingObje
 void OpenGLRenderer::drawFrame()
 {
 	clear();
+	m_camera.update();
 	for(auto& object : m_renderingObjects)
 	{
-		object.setupShader(m_shader);
+		object.setupShader(m_shader, m_camera);
 		object.getVAO().bind();
 
 		glDrawElements(GL_TRIANGLES, object.getIndicesCount(), GL_UNSIGNED_INT, nullptr);

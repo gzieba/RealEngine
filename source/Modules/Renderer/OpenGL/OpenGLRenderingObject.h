@@ -6,8 +6,9 @@
 #include "Common/Components/Transform.h"
 #include "Common/Components/Vertex.h"
 
-#include "OpenGLVertexArray.h"
+#include "OpenGLCamera.h"
 #include "OpenGLShader.h"
+#include "OpenGLVertexArray.h"
 
 class OpenGLRenderingObject
 {
@@ -19,10 +20,10 @@ public:
 	Transform getTransform() const;
 	void setTransform(Transform transform);
 	OpenGLVertexArray getVAO() const;
-	void setupShader(OpenGLShader shader);
+	void setupShader(OpenGLShader shader, const OpenGLCamera& camera);
 
 private:
-	void setupTransformation();
+	void setupTransformation(const OpenGLCamera& camera);
 
 	unsigned int m_id;
 	unsigned int m_indicesCount;

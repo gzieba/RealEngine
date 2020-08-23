@@ -40,26 +40,26 @@ OpenGLVertexArray OpenGLRenderingObject::getVAO() const
 	return m_vao;
 }
 
-void OpenGLRenderingObject::setupShader(OpenGLShader shader)
+void OpenGLRenderingObject::setupShader(OpenGLShader shader, const OpenGLCamera& camera)
 {
 	shader.useShader();
-	setupTransformation();
+	setupTransformation(camera);
 	shader.setUniform("model", m_modelMatrix);
 	shader.setUniform("view", m_viewMatrix);
 	shader.setUniform("projection", m_projectionMatrix);
 }
 
-void OpenGLRenderingObject::setupTransformation()
+void OpenGLRenderingObject::setupTransformation(const OpenGLCamera& camera)
 {
 	m_modelMatrix = glm::translate(m_modelMatrix, m_transform.getPosition());
 	glm::vec3 currentRotation = m_transform.getRotation();
 	m_modelMatrix *= glm::eulerAngleXYZ(glm::radians(currentRotation.x), glm::radians(currentRotation.y), glm::radians(currentRotation.z));
 	m_modelMatrix = glm::scale(m_modelMatrix, m_transform.getScale());
 
-	//m_viewMatrix = m_camera->GetViewMatrix();
+	m_viewMatrix = camera.getViewMatrix();
 
 	m_projectionMatrix = glm::perspective(
-				glm::radians(90.0f),
+				glm::radians(camera.getFOV()),
 				static_cast<float>(1280) / static_cast<float>(720),
 				0.1f,
 				100.0f);

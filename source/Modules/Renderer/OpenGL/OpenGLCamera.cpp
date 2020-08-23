@@ -29,25 +29,25 @@ OpenGLCamera::OpenGLCamera(Window* window)
 
 	glfwSetInputMode(m_window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
-	LookAt(DEFAULT_TARGET_POSITION_VECTOR);
+	lookAt(DEFAULT_TARGET_POSITION_VECTOR);
 }
 
-glm::mat4 OpenGLCamera::GetViewMatrix() const
+glm::mat4 OpenGLCamera::getViewMatrix() const
 {
 	return m_viewMatrix;
 }
 
-void OpenGLCamera::LookAt(glm::vec3 position)
+void OpenGLCamera::lookAt(glm::vec3 position)
 {
 	m_viewMatrix = glm::lookAt(m_cameraPosition, position, UP_VECTOR);
 }
 
-void OpenGLCamera::Update()
+void OpenGLCamera::update()
 {
 	double xPos, yPos;
 	glfwGetCursorPos(m_window->getWindow(), &xPos, &yPos);
 
-	MouseInput(xPos, yPos);
+	mouseInput(xPos, yPos);
 
 	if (glfwGetKey(m_window->getWindow(), GLFW_KEY_W) == GLFW_PRESS)
 	{
@@ -74,20 +74,22 @@ void OpenGLCamera::Update()
 		m_cameraPosition -= m_cameraSpeed * UP_VECTOR * 16.6f;
 	}
 
-	LookAt(m_cameraPosition + m_cameraFront);
+//	LOG(TRACE) << LOCATION << m_cameraPosition.x << " " << m_cameraPosition.y << " " << m_cameraPosition.z;
+
+	lookAt(m_cameraPosition + m_cameraFront);
 }
 
-float OpenGLCamera::GetFOV() const
+float OpenGLCamera::getFOV() const
 {
 	return DEFAULT_FOV;
 }
 
-glm::vec3 OpenGLCamera::GetPosition() const
+glm::vec3 OpenGLCamera::getPosition() const
 {
 	return m_cameraPosition;
 }
 
-void OpenGLCamera::MouseInput(float xPosition, float yPosition)
+void OpenGLCamera::mouseInput(float xPosition, float yPosition)
 {
 	if(m_isFirstMove)
 	{
