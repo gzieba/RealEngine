@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "OpenGLShader.h"
+#include "OpenGLCamera.h"
 
 class Object;
 class OpenGLRenderingObject;
@@ -13,15 +14,15 @@ struct Vertex;
 class OpenGLRenderer
 {
 public:
-	OpenGLRenderer(const std::vector<OpenGLRenderingObject>& renderingObjects);
+	OpenGLRenderer(std::vector<OpenGLRenderingObject>& renderingObjects, Window* window);
 	void drawFrame();
 
 private:
 	void clear();
-	void setupTransform(const OpenGLRenderingObject& object);
 
-	std::unique_ptr<OpenGLShader> m_shader;
-	const std::vector<OpenGLRenderingObject>& m_renderingObjects;
+	OpenGLCamera m_camera;
+	OpenGLShader m_shader;
+	std::vector<OpenGLRenderingObject>& m_renderingObjects;
 	bool m_shouldFinish;
 };
 

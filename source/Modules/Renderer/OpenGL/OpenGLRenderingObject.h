@@ -7,6 +7,7 @@
 #include "Common/Components/Vertex.h"
 
 #include "OpenGLVertexArray.h"
+#include "OpenGLShader.h"
 
 class OpenGLRenderingObject
 {
@@ -18,11 +19,18 @@ public:
 	Transform getTransform() const;
 	void setTransform(Transform transform);
 	OpenGLVertexArray getVAO() const;
+	void setupShader(OpenGLShader shader);
 
 private:
+	void setupTransformation();
+
 	unsigned int m_id;
 	unsigned int m_indicesCount;
 	Transform m_transform;
 	OpenGLVertexArray m_vao;
+
+	glm::mat4 m_modelMatrix = glm::mat4(1.0f);
+	glm::mat4 m_viewMatrix = glm::mat4(1.0f);
+	glm::mat4 m_projectionMatrix = glm::mat4(1.0f);
 };
 

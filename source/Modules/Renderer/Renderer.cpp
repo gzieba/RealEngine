@@ -16,7 +16,7 @@ Renderer::Renderer()
 {
 	m_window = new Window();
 	m_imGuiManager = new ImGuiManager(m_window->getWindow());
-	m_openGLRenderer = new OpenGLRenderer(m_objects);
+	m_openGLRenderer = new OpenGLRenderer(m_objects, m_window);
 }
 
 Renderer::~Renderer()

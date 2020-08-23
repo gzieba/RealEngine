@@ -95,7 +95,7 @@ void ImGuiManager::newFrame()
 		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
 		{
 			counter++;
-			m_messenger.sendMessage(MessageType::Test);
+			m_messenger.sendMessage({MessageType::LoadModel, std::string("/home/gzieba/Developer/repos/build-RealEngine-Desktop_Qt_5_15_0_GCC_64bit-Debug/nanosuit/nanosuit.obj")});
 		}
 		ImGui::SameLine();
 		ImGui::Text("counter = %d", counter);
