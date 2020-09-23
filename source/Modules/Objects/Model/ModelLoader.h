@@ -7,7 +7,7 @@
 class Model;
 class Mesh;
 class aiNode;
-class aiScene;
+struct aiScene;
 class aiMesh;
 
 class ModelLoader
