@@ -101,7 +101,7 @@ void ImGuiManager::newFrame()
 		ImGui::Text("counter = %d", counter);
 		if(ImGui::Button("DUPA"))
 		{
-			m_messenger.sendMessage({MessageType::LoadModel, std::string("/home/gzieba/Downloads/cube.obj")});
+			m_messenger.sendMessage({MessageType::LoadModel, std::string("C:\\Users/gniew/Downloads/cube.obj")});
 		}
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::End();

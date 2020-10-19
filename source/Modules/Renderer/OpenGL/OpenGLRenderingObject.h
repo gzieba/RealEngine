@@ -19,7 +19,7 @@ public:
 	unsigned int getIndicesCount() const;
 	Transform getTransform() const;
 	void setTransform(Transform transform);
-	OpenGLVertexArray getVAO() const;
+	const std::unique_ptr<OpenGLVertexArray>& getVAO() const;
 	void setupShader(OpenGLShader shader, const OpenGLCamera& camera);
 
 private:
@@ -28,7 +28,7 @@ private:
 	unsigned int m_id;
 	unsigned int m_indicesCount;
 	Transform m_transform;
-	OpenGLVertexArray m_vao;
+	std::unique_ptr<OpenGLVertexArray> m_vao;
 
 	glm::mat4 m_modelMatrix = glm::mat4(1.0f);
 	glm::mat4 m_viewMatrix = glm::mat4(1.0f);

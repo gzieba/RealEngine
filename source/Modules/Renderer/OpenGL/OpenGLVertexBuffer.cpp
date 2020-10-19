@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 
 #include "Common/Components/Vertex.h"
+#include "Common/logging.h"
 
 namespace
 {
@@ -11,6 +12,7 @@ constexpr auto BUFFER_COUNT = 1;
 
 OpenGLVertexBuffer::OpenGLVertexBuffer(std::vector<Vertex>& data)
 {
+	LOG(INFO) << LOCATION << "Creating vertex buffer";
 	glGenBuffers(BUFFER_COUNT, &m_vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * data.size(), data.data(), GL_STATIC_DRAW);
@@ -27,5 +29,6 @@ OpenGLVertexBuffer::OpenGLVertexBuffer(std::vector<Vertex>& data)
 
 OpenGLVertexBuffer::~OpenGLVertexBuffer()
 {
+	LOG(INFO) << LOCATION << "Removing vertex buffer";
 	glDeleteVertexArrays(BUFFER_COUNT, &m_vertexBuffer);
 }

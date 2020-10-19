@@ -61,7 +61,7 @@ void Renderer::processMessage(const Message &message)
 		{
 			const auto object = message.getData<
 					std::tuple<unsigned int, Transform, std::vector<Vertex>, std::vector<unsigned int>>>();
-			m_objects.push_back({std::get<0>(object), std::get<1>(object), std::get<2>(object), std::get<3>(object)});
+			m_objects.emplace_back(std::get<0>(object), std::get<1>(object), std::get<2>(object), std::get<3>(object));
 
 			return;
 		}

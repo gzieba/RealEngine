@@ -26,7 +26,7 @@ void OpenGLRenderer::drawFrame()
 	for(auto& object : m_renderingObjects)
 	{
 		object.setupShader(m_shader, m_camera);
-		object.getVAO().bind();
+		object.getVAO()->bind();
 
 		glDrawElements(GL_TRIANGLES, object.getIndicesCount(), GL_UNSIGNED_INT, nullptr);
 	}

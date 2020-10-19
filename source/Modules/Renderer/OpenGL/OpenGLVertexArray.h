@@ -15,12 +15,11 @@ public:
 	~OpenGLVertexArray();
 
 	void bind() const;
-	void unbind() const;
 
 private:
 	unsigned int m_vertexArrayObject;
 
-	OpenGLIndexBuffer m_indexBuffer;
-	OpenGLVertexBuffer m_vertexBuffer;
+	std::unique_ptr<OpenGLIndexBuffer> m_indexBuffer;
+	std::unique_ptr<OpenGLVertexBuffer> m_vertexBuffer;
 };
 

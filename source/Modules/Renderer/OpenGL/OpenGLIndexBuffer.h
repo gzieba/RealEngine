@@ -5,6 +5,7 @@
 class OpenGLIndexBuffer
 {
 public:
+	OpenGLIndexBuffer() = default;
 	OpenGLIndexBuffer(std::vector<unsigned int>& data);
 	~OpenGLIndexBuffer();
 
