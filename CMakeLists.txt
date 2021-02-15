@@ -13,15 +13,15 @@ link_directories(RealEngine PUBLIC lib)
 
 add_executable(RealEngine ${SOURCES} ${HEADERS} ${IMGUI_SOURCE} ${IMGUI_HEADER})
 
-target_include_directories(RealEngine PUBLIC source 
+target_include_directories(RealEngine PUBLIC source
                         third-party
                         third-party/assimp/include
-                        third-party/glfw/include        
-                        third-party/glad/include        
+                        third-party/glfw/include
+                        third-party/glad/include
                         third-party/imgui)
 
 if(UNIX)
-    target_link_libraries(RealEngine glfw glad assimp pthread X11 ${CMAKE_DL_LIBS})
+    target_link_libraries(RealEngine glfw3 glad assimp pthread X11 ${CMAKE_DL_LIBS})
 endif()
 if(WIN32)
     target_link_libraries(RealEngine glfw3 glad assimp)
