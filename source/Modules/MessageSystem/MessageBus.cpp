@@ -22,9 +22,9 @@ void MessageBus::handleMessages()
 			LOG(TRACE) << messageTypeToString(message.getMessageType());
 			for(auto& messenger : m_messangers)
 				messenger->handleMessage(message);
-			m_messageQueue.pop();
 			if(message.getMessageType() == MessageType::Shutdown)
 				shouldExit = true;
+			m_messageQueue.pop();
 		}
 		else
 		{

@@ -2,9 +2,21 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/euler_angles.hpp>
+
+#include <Common/logging.h>
+
+namespace
+{
+constexpr auto DEFAULT_DIRECTION = glm::vec3(-0.2f, -1.0f, -0.3f);
+constexpr auto DEFAULT_COLOR = glm::vec3(1.0f, 1.0f, 1.0f);
+constexpr auto DEFAULT_AMBIENT = glm::vec3(0.05f, 0.05f, 0.05f);
+constexpr auto DEFAULT_DIFFUSE = glm::vec3(0.4f, 0.4f, 0.4f);
+constexpr auto DEFAULT_SPECULAR = glm::vec3(0.5f, 0.5f, 0.5f);
+}
 
 OpenGLRenderingObject::OpenGLRenderingObject(unsigned int id,
 											 Transform transform,
@@ -55,6 +67,47 @@ void OpenGLRenderingObject::setupShader(OpenGLShader shader, const OpenGLCamera&
 	shader.setUniform("model", m_modelMatrix);
 	shader.setUniform("view", m_viewMatrix);
 	shader.setUniform("projection", m_projectionMatrix);
+}
+
+void OpenGLRenderingObject::setupTextures(OpenGLShader shader)
+{
+	unsigned int diffuseTextureNumber = 1;
+	unsigned int specularTextureNumber = 1;
+
+	for(unsigned int i = 0; i < m_textures.size(); i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i);
+
+		std::string number;
+		std::string textureName;
+
+		switch (i)
+		{
+			case 0:
+				number = std::to_string(diffuseTextureNumber++);
+				textureName = "diffuseTexture" + number;
+				break;
+			case 1:
+				number = std::to_string(specularTextureNumber++);
+				textureName = "specularTexture" + number;
+				break;
+			default:
+				return;
+		}
+		auto uniformName = "material." + textureName;
+		shader.setUniform(uniformName.c_str(), static_cast<int>(i));
+		m_textures[i].bind();
+	}
+	shader.setUniform("material.shininess", 0.5f);
+}
+
+void OpenGLRenderingObject::setupLight(const OpenGLShader &shader)
+{
+	shader.setUniform("directionalLight.direction", DEFAULT_DIRECTION);
+	shader.setUniform("directionalLight.color", DEFAULT_COLOR);
+	shader.setUniform("directionalLight.ambient", DEFAULT_AMBIENT);
+	shader.setUniform("directionalLight.diffuse", DEFAULT_DIFFUSE);
+	shader.setUniform("directionalLight.specular", DEFAULT_SPECULAR);
 }
 
 void OpenGLRenderingObject::setupTransformation(const OpenGLCamera& camera)
