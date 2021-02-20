@@ -9,7 +9,7 @@
 
 namespace
 {
-constexpr auto DEFAULT_CAMERA_SPEED = 2.5f;
+constexpr auto DEFAULT_CAMERA_SPEED = 0.01f;
 constexpr auto DEFAULT_FOV = 45.0f;
 constexpr auto DEFAULT_TARGET_POSITION_VECTOR = glm::vec3(0.0f, 0.0f, 0.0f);
 constexpr auto MAX_PITCH = 89.0f;
