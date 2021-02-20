@@ -73,3 +73,6 @@ lib/
 # --------
 *.dll
 *.exe
+
+# CMake
+*.user
