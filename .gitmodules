@@ -7,3 +7,6 @@
 [submodule "third-party/assimp"]
 	path = third-party/assimp
 	url = git@github.com:gzieba/assimp.git
+[submodule "third-party/stb"]
+	path = third-party/stb
+	url = git@github.com:nothings/stb.git

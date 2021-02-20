@@ -18,7 +18,8 @@ target_include_directories(RealEngine PUBLIC source
                         third-party/assimp/include
                         third-party/glfw/include
                         third-party/glad/include
-                        third-party/imgui)
+			third-party/imgui
+			third-party/stb)
 
 if(UNIX)
     target_link_libraries(RealEngine glfw3 glad assimp pthread X11 ${CMAKE_DL_LIBS})

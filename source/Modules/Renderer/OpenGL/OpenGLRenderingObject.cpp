@@ -6,13 +6,21 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/euler_angles.hpp>
 
-OpenGLRenderingObject::OpenGLRenderingObject(unsigned int id, Transform transform, std::vector<Vertex> vertices, std::vector<unsigned int> indices)
+OpenGLRenderingObject::OpenGLRenderingObject(unsigned int id,
+											 Transform transform,
+											 std::vector<Vertex> vertices,
+											 std::vector<unsigned int> indices,
+											 std::vector<Texture2D> textures)
 	: m_id(id)
 	, m_transform(transform)
 	, m_vao(std::make_unique<OpenGLVertexArray>(vertices, indices))
 	, m_indicesCount(indices.size())
 {
-
+	for(const auto& texture : textures)
+		m_textures.emplace_back(std::get<0>(texture),
+								std::get<1>(texture),
+								std::get<2>(texture),
+								std::get<3>(texture));
 }
 
 unsigned int OpenGLRenderingObject::getID() const

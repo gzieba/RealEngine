@@ -59,9 +59,18 @@ void Renderer::processMessage(const Message &message)
 	{
 		case MessageType::AddToRenderQueue:
 		{
+			typedef std::tuple<unsigned char*, int, int, int> Texture2D;
 			const auto object = message.getData<
-					std::tuple<unsigned int, Transform, std::vector<Vertex>, std::vector<unsigned int>>>();
-			m_objects.emplace_back(std::get<0>(object), std::get<1>(object), std::get<2>(object), std::get<3>(object));
+					std::tuple<unsigned int,
+					Transform,
+					std::vector<Vertex>,
+					std::vector<unsigned int>,
+					std::vector<Texture2D>>>();
+			m_objects.emplace_back(std::get<0>(object),
+								   std::get<1>(object),
+								   std::get<2>(object),
+								   std::get<3>(object),
+								   std::get<4>(object));
 
 			return;
 		}

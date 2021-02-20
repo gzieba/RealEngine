@@ -47,7 +47,7 @@ void ObjectManager::loadModel(std::string data)
 	auto model = ModelLoader().loadModel(filePath);
 	if(!model)
 	{
-		LOG(WARNING) << LOCATION << "Model is nullptr";
+		LOG(WARNING) << LOCATION << "Model at: " << filePath << " is nullptr";
 		return;
 	}
 	m_objects.push_back({++m_currentID, std::make_unique<Object>(Object(modelName, std::move(model)))});
@@ -57,7 +57,11 @@ void ObjectManager::loadModel(std::string data)
 
 void ObjectManager::addToRenderQueue(const std::unique_ptr<Object> &object)
 {
+	typedef std::tuple<unsigned char*, int, int, int> Texture2D;
 	for(const auto& mesh : object->getModel()->getMeshes())
-		sendMessage({MessageType::AddToRenderQueue, std::tuple<unsigned int, Transform, std::vector<Vertex>, std::vector<unsigned int>>(
-					 m_currentID, object->getTransform(), mesh->getVertices(), mesh->getIndices())});
+		sendMessage({MessageType::AddToRenderQueue,
+					 std::tuple<unsigned int, Transform, std::vector<Vertex>,
+					 std::vector<unsigned int>, std::vector<Texture2D>>(
+					 m_currentID, object->getTransform(), mesh->getVertices(),
+					 mesh->getIndices(), mesh->getTextures())});
 }
