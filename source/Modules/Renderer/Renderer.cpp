@@ -21,6 +21,7 @@ Renderer::Renderer()
 
 Renderer::~Renderer()
 {
+	LOG(INFO) << __FUNCTION__ << "Deleting renderer";
 	delete m_openGLRenderer;
 	delete m_imGuiManager;
 	delete m_window;

@@ -76,6 +76,8 @@ std::unique_ptr<Mesh> ModelLoader::processMesh(aiMesh *mesh, const aiScene* scen
 			glm::vec2 vec;
 			vec.x = mesh->mTextureCoords[0][i].x;
 			vec.y = mesh->mTextureCoords[0][i].y;
+
+			vertex.texCoords = vec;
 		}
 		vertices.push_back(vertex);
 	}

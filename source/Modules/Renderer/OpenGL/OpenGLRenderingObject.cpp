@@ -60,16 +60,17 @@ const std::unique_ptr<OpenGLVertexArray>& OpenGLRenderingObject::getVAO() const
 	return m_vao;
 }
 
-void OpenGLRenderingObject::setupShader(OpenGLShader shader, const OpenGLCamera& camera)
+void OpenGLRenderingObject::setupShader(const OpenGLShader& shader, const OpenGLCamera& camera)
 {
 	shader.useShader();
 	setupTransformation(camera);
 	shader.setUniform("model", m_modelMatrix);
 	shader.setUniform("view", m_viewMatrix);
 	shader.setUniform("projection", m_projectionMatrix);
+	shader.setUniform("viewPosition", camera.getPosition());
 }
 
-void OpenGLRenderingObject::setupTextures(OpenGLShader shader)
+void OpenGLRenderingObject::setupTextures(const OpenGLShader& shader)
 {
 	unsigned int diffuseTextureNumber = 1;
 	unsigned int specularTextureNumber = 1;

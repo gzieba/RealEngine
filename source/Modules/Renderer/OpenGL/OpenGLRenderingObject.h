@@ -25,8 +25,8 @@ public:
 	Transform getTransform() const;
 	void setTransform(Transform transform);
 	const std::unique_ptr<OpenGLVertexArray>& getVAO() const;
-	void setupShader(OpenGLShader shader, const OpenGLCamera& camera);
-	void setupTextures(OpenGLShader shader);
+	void setupShader(const OpenGLShader& shader, const OpenGLCamera& camera);
+	void setupTextures(const OpenGLShader& shader);
 	void setupLight(const OpenGLShader& shader);
 
 private:

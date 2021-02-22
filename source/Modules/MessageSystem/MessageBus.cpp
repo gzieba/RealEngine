@@ -39,6 +39,7 @@ void MessageBus::handleMessages()
 MessageBus::~MessageBus()
 {
 	m_handleMessagesThread.join();
+	LOG(INFO) << __FUNCTION__ << "Deleting MessageBus";
 }
 
 MessageBus& MessageBus::instance()
@@ -66,5 +67,5 @@ void MessageBus::sendMessage(const Message& message)
 {
 	std::lock_guard<std::mutex> lock(m_mutex);
 	m_messageQueue.push(message);
-	m_conditionVariable.notify_one();
+	m_conditionVariable.notify_all();
 }
