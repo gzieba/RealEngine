@@ -3,8 +3,9 @@
 #define IMGUI_IMPL_OPENGL_LOADER_GLAD
 
 #include "imgui.h"
-#include "examples/imgui_impl_glfw.h"
-#include "examples/imgui_impl_opengl3.h"
+#include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_opengl3.h"
+#include "ImGuiFileDialog.h"
 
 #include <GLFW/glfw3.h>
 
@@ -49,7 +50,11 @@ void ImGuiManager::newFrame(std::vector<OpenGLRenderingObject>& objects)
 		ImGui::Begin("RealEngine");                       // Create a window called "Hello, world!" and append into it.
 
 		if(ImGui::Button("LoadModel"))
+		{
+			auto path = ImGuiFileDialog::Instance()->GetFilePathName();
+			LOG(INFO) << LOCATION << path;
 			sendMessage({MessageType::LoadModel, std::string("/home/gzieba/Developer/repos/build-RealEngine-Desktop_Qt_6_0_1_GCC_64bit-Debug/nanosuit/nanosuit.obj")});
+		}
 
 		if(ImGui::CollapsingHeader("Objects"))
 		{

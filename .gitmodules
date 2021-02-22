@@ -10,3 +10,6 @@
 [submodule "third-party/stb"]
 	path = third-party/stb
 	url = git@github.com:nothings/stb.git
+[submodule "third-party/ImGuiFileDialog"]
+	path = third-party/ImGuiFileDialog
+	url = https://github.com/aiekick/ImGuiFileDialog.git
