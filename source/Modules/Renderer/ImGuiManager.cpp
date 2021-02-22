@@ -38,6 +38,26 @@ ImGuiManager::~ImGuiManager()
 	ImGui::DestroyContext();
 }
 
+void ImGuiManager::loadModel()
+{
+	if(ImGui::Button("LoadModel"))
+	{
+		ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", ".obj", ".");
+	}
+
+	if(ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey"))
+	{
+		if(ImGuiFileDialog::Instance()->IsOk())
+		{
+			auto path = ImGuiFileDialog::Instance()->GetFilePathName();
+			LOG(INFO) << LOCATION << path;
+			sendMessage({MessageType::LoadModel, std::string("/home/gzieba/Developer/repos/build-RealEngine-Desktop_Qt_6_0_1_GCC_64bit-Debug/nanosuit/nanosuit.obj")});
+		}
+
+		ImGuiFileDialog::Instance()->Close();
+	}
+}
+
 void ImGuiManager::newFrame(std::vector<OpenGLRenderingObject>& objects)
 {
 	glfwPollEvents();
@@ -49,22 +69,7 @@ void ImGuiManager::newFrame(std::vector<OpenGLRenderingObject>& objects)
 	{
 		ImGui::Begin("RealEngine");                       // Create a window called "Hello, world!" and append into it.
 
-		if(ImGui::Button("LoadModel"))
-		{
-			ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", ".obj", ".");
-		}
-
-		if(ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey"))
-		{
-			if(ImGuiFileDialog::Instance()->IsOk())
-			{
-				auto path = ImGuiFileDialog::Instance()->GetFilePathName();
-				LOG(INFO) << LOCATION << path;
-				sendMessage({MessageType::LoadModel, std::string("/home/gzieba/Developer/repos/build-RealEngine-Desktop_Qt_6_0_1_GCC_64bit-Debug/nanosuit/nanosuit.obj")});
-			}
-
-			ImGuiFileDialog::Instance()->Close();
-		}
+		loadModel();
 
 		if(ImGui::CollapsingHeader("Objects"))
 		{

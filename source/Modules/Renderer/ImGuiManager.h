@@ -19,4 +19,5 @@ private:
 
 	std::vector<std::tuple<int, std::string, Transform>> m_objects;
 	ImVec4* m_clearColor;
+	void loadModel();
 };
