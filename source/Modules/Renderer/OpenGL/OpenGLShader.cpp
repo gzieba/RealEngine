@@ -17,6 +17,14 @@ const std::string VERTEX_SHADER_SOURCE =
 const std::string FRAGMENT_SHADER_SOURCE =
 		#include "Shaders/fragment_shader.glsl"
 ;
+
+const std::string DEBUG_NORMAL_SHADER =
+        #include "Shaders/debug_normal_shader.glsl"
+;
+
+const std::string DEBUG_TEX_SHADER =
+        #include "Shaders/debug_texCoords_shader.glsl"
+;
 }
 
 OpenGLShader::OpenGLShader(const ShaderType vertexShaderType, const ShaderType fragmentShaderType)
@@ -113,6 +121,10 @@ const char* OpenGLShader::shaderSource(const ShaderType type) const
 			return VERTEX_SHADER_SOURCE.c_str();
 		case ShaderType::OpenGLFragmentShader:
 			return FRAGMENT_SHADER_SOURCE.c_str();
+        case ShaderType::OpenGLDebugNormalShader:
+            return DEBUG_NORMAL_SHADER.c_str();
+        case ShaderType::OpenGLDebugTexShader:
+            return DEBUG_TEX_SHADER.c_str();
 		default:
 			return "";
 	}

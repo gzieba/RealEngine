@@ -16,6 +16,9 @@ enum class MessageType
 	AddToRenderQueue,
 	RemoveFromRenderQueue,
 	NewFrame,
+    SetDefaultShader,
+    SetDebugNormalShader,
+    SetDebugTexCoordShader,
 	Shutdown
 };
 
@@ -33,6 +36,9 @@ const std::map<MessageType, std::string> s_messageTypeToString =
 	{MessageType::UpdateTransformUI, "UpdateTransformUI"},
 	{MessageType::AddToRenderQueue, "AddToRenderQueue"},
 	{MessageType::NewFrame, "NewFrame"},
+    {MessageType::SetDefaultShader, "SetDefaultShader"},
+    {MessageType::SetDebugNormalShader, "SetDebugNormalShader"},
+    {MessageType::SetDebugTexCoordShader, "SetDebugTexCoordShader"},
 	{MessageType::Shutdown, "Shutdown"}
 };
 

@@ -16,6 +16,7 @@ class OpenGLRenderer
 public:
 	OpenGLRenderer(std::vector<OpenGLRenderingObject>& renderingObjects, Window* window);
 	void drawFrame();
+    void setShader(ShaderType type);
 
 private:
 	void clear();

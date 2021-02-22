@@ -91,8 +91,12 @@ void ImGuiManager::newFrame(std::vector<OpenGLRenderingObject>& objects)
 //				lightManager->CreateUi();
 			}
 		}
+
+        selectShader();
+
 		ImGui::End();
 	}
+
 
 	// Rendering
 	ImGui::Render();
@@ -149,5 +153,36 @@ void ImGuiManager::createMeshUi(std::tuple<int, std::string, Transform>& object,
 	}
 
 	ImGui::TreePop();
-	ImGui::Separator();
+    ImGui::Separator();
+}
+
+void ImGuiManager::selectShader()
+{
+    int newShader = m_currentSelectedShader;
+    ImGui::RadioButton("Default shader", &newShader, 0); ImGui::SameLine();
+    ImGui::RadioButton("Debug normal shader", &newShader, 1); ImGui::SameLine();
+    ImGui::RadioButton("Debug tex shader", &newShader, 2);
+    if(newShader != m_currentSelectedShader)
+    {
+        switch (newShader)
+        {
+            case 0:
+            {
+                sendMessage({MessageType::SetDefaultShader});
+                break;
+            }
+            case 1:
+            {
+                sendMessage({MessageType::SetDebugNormalShader});
+                break;
+            }
+            case 2:
+            {
+                sendMessage({MessageType::SetDebugTexCoordShader});
+                break;
+            }
+        }
+        m_currentSelectedShader = newShader;
+        return;
+    }
 }

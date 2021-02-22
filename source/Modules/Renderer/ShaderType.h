@@ -3,5 +3,7 @@
 enum class ShaderType
 {
 	OpenGLVertexShader,
-	OpenGLFragmentShader
+    OpenGLFragmentShader,
+    OpenGLDebugNormalShader,
+    OpenGLDebugTexShader
 };

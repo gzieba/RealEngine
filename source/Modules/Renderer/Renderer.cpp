@@ -9,6 +9,7 @@
 #include "OpenGL/OpenGLRenderingObject.h"
 
 #include "Modules/Objects/Object.h"
+#include "Modules/Renderer/ShaderType.h"
 
 #include "ImGuiManager.h"
 
@@ -82,6 +83,21 @@ void Renderer::processMessage(const Message &message)
 			LOG(TRACE) << LOCATION << "Updating transform in rendering object: \n" << data.second;
 			return;
 		}
+        case MessageType::SetDefaultShader:
+        {
+            m_openGLRenderer->setShader(ShaderType::OpenGLFragmentShader);
+            return;
+        }
+        case MessageType::SetDebugNormalShader:
+        {
+            m_openGLRenderer->setShader(ShaderType::OpenGLDebugNormalShader);
+            return;
+        }
+        case MessageType::SetDebugTexCoordShader:
+        {
+            m_openGLRenderer->setShader(ShaderType::OpenGLDebugTexShader);
+            return;
+        }
 		case MessageType::Test:
 		{
 			return;

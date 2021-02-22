@@ -31,7 +31,12 @@ void OpenGLRenderer::drawFrame()
 		object.setupTextures(m_shader);
 
 		glDrawElements(GL_TRIANGLES, object.getIndicesCount(), GL_UNSIGNED_INT, nullptr);
-	}
+    }
+}
+
+void OpenGLRenderer::setShader(ShaderType type)
+{
+    m_shader = OpenGLShader(ShaderType::OpenGLVertexShader, type);
 }
 
 void OpenGLRenderer::clear()
