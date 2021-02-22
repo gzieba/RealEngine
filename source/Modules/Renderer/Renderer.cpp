@@ -33,7 +33,7 @@ void Renderer::run()
 	while(!shouldExit)
 	{
 		m_openGLRenderer->drawFrame();
-		m_imGuiManager->newFrame();
+		m_imGuiManager->newFrame(m_objects);
 		m_window->swapBuffers();
 		std::lock_guard<std::mutex> lock(m_mutex);
 		if(!m_messageQueue.empty())
@@ -77,7 +77,7 @@ void Renderer::processMessage(const Message &message)
 		}
 		case MessageType::SetTransform:
 		{
-			const auto data = message.getData<std::pair<unsigned int, Transform>>();
+			const auto data = message.getData<std::pair<int, Transform>>();
 			updateTransform(data.first, data.second);
 			LOG(TRACE) << LOCATION << "Updating transform in rendering object: \n" << data.second;
 			return;

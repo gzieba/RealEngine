@@ -26,7 +26,7 @@ void ObjectManager::handleMessage(const Message& message)
 		}
 		case MessageType::SetTransform:
 		{
-			auto data = message.getData<std::pair<unsigned int, Transform>>();
+			auto data = message.getData<std::pair<int, Transform>>();
 
 			for(auto& object : m_objects)
 			{
@@ -51,7 +51,7 @@ void ObjectManager::loadModel(std::string data)
 		return;
 	}
 	m_objects.push_back({++m_currentID, std::make_unique<Object>(Object(modelName, std::move(model)))});
-	sendMessage({MessageType::ObjectListChanged, std::pair<int, std::string>(m_currentID, modelName)});
+	sendMessage({MessageType::ObjectListChanged, std::tuple<int, std::string, Transform>(m_currentID, modelName, m_objects.back().second->getTransform())});
 	addToRenderQueue(m_objects.back().second);
 }
 

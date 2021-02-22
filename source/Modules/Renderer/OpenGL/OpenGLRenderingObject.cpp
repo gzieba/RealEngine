@@ -87,7 +87,7 @@ void OpenGLRenderingObject::setupTextures(const OpenGLShader& shader)
 			case 0:
 				number = std::to_string(diffuseTextureNumber++);
 				textureName = "diffuseTexture" + number;
-				break;
+				return;
 			case 1:
 				number = std::to_string(specularTextureNumber++);
 				textureName = "specularTexture" + number;
@@ -113,6 +113,7 @@ void OpenGLRenderingObject::setupLight(const OpenGLShader &shader)
 
 void OpenGLRenderingObject::setupTransformation(const OpenGLCamera& camera)
 {
+	m_modelMatrix = glm::identity<glm::mat4>();
 	m_modelMatrix = glm::translate(m_modelMatrix, m_transform.getPosition());
 	glm::vec3 currentRotation = m_transform.getRotation();
 	m_modelMatrix *= glm::eulerAngleXYZ(glm::radians(currentRotation.x), glm::radians(currentRotation.y), glm::radians(currentRotation.z));

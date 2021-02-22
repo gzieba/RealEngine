@@ -11,6 +11,7 @@ class Transform
 	glm::vec3 m_scale;
 public:
 	Transform();
+	Transform(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
 
 	glm::vec3 getPosition() const;
 	void setPosition(glm::vec3 position);
@@ -23,4 +24,8 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& os, const glm::vec3& vec);
 	friend std::ostream& operator<<(std::ostream& os, const Transform& transform);
+	friend bool operator!=(const Transform& lhs, const Transform& rhs);
+
+private:
+	friend bool equal(glm::vec3 lhs, glm::vec3 rhs);
 };
