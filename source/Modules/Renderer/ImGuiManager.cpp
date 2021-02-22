@@ -27,6 +27,8 @@ ImGuiManager::ImGuiManager(GLFWwindow* window)
 	ImGui_ImplOpenGL3_Init(GLSL_VERSION);
 
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+	ImGuiFileDialog::Instance()->SetExtentionInfos(".obj", ImVec4(1.0f, 1.0f, 0.0f, 0.9f));
 }
 
 ImGuiManager::~ImGuiManager()
@@ -45,15 +47,23 @@ void ImGuiManager::newFrame(std::vector<OpenGLRenderingObject>& objects)
 	ImGui::NewFrame();
 
 	{
-		static int counter = 0;
-
 		ImGui::Begin("RealEngine");                       // Create a window called "Hello, world!" and append into it.
 
 		if(ImGui::Button("LoadModel"))
 		{
-			auto path = ImGuiFileDialog::Instance()->GetFilePathName();
-			LOG(INFO) << LOCATION << path;
-			sendMessage({MessageType::LoadModel, std::string("/home/gzieba/Developer/repos/build-RealEngine-Desktop_Qt_6_0_1_GCC_64bit-Debug/nanosuit/nanosuit.obj")});
+			ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", ".obj", ".");
+		}
+
+		if(ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey"))
+		{
+			if(ImGuiFileDialog::Instance()->IsOk())
+			{
+				auto path = ImGuiFileDialog::Instance()->GetFilePathName();
+				LOG(INFO) << LOCATION << path;
+				sendMessage({MessageType::LoadModel, std::string("/home/gzieba/Developer/repos/build-RealEngine-Desktop_Qt_6_0_1_GCC_64bit-Debug/nanosuit/nanosuit.obj")});
+			}
+
+			ImGuiFileDialog::Instance()->Close();
 		}
 
 		if(ImGui::CollapsingHeader("Objects"))
