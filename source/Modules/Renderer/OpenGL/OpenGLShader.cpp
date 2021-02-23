@@ -44,7 +44,9 @@ void OpenGLShader::setUniform(const char* name, std::variant<int, float, glm::ve
 	auto uniformLocation = glGetUniformLocation(m_shaderProgram, name);
 	if(uniformLocation < 0)
 	{
-		LOG(ERROR) << LOCATION << "Incorrect uniform name: " << name;
+		if(m_fragmentShaderType != ShaderType::OpenGLDebugNormalShader
+				&& m_fragmentShaderType != ShaderType::OpenGLDebugTexShader)
+			LOG(ERROR) << LOCATION << "Incorrect uniform name: " << name;
 		return;
 	}
 	if(std::get_if<int>(&value))
