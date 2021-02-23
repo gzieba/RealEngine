@@ -57,11 +57,10 @@ void ObjectManager::loadModel(std::string data)
 
 void ObjectManager::addToRenderQueue(const std::unique_ptr<Object> &object)
 {
-	typedef std::tuple<unsigned char*, int, int, int> Texture2D;
 	for(const auto& mesh : object->getModel()->getMeshes())
 		sendMessage({MessageType::AddToRenderQueue,
 					 std::tuple<unsigned int, Transform, std::vector<Vertex>,
-					 std::vector<unsigned int>, std::vector<Texture2D>>(
+					 std::vector<unsigned int>>(
 					 m_currentID, object->getTransform(), mesh->getVertices(),
-					 mesh->getIndices(), mesh->getTextures())});
+					 mesh->getIndices())});
 }

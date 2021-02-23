@@ -2,6 +2,7 @@
 
 enum class TextureType
 {
-	diffuseTexture,
-	specularTexture
+	baseColor = 0,
+	diffuse = 1,
+	specular = 2
 };

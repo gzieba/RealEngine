@@ -66,13 +66,11 @@ void Renderer::processMessage(const Message &message)
 					std::tuple<unsigned int,
 					Transform,
 					std::vector<Vertex>,
-					std::vector<unsigned int>,
-					std::vector<Texture2D>>>();
+					std::vector<unsigned int>>>();
 			m_objects.emplace_back(std::get<0>(object),
 								   std::get<1>(object),
 								   std::get<2>(object),
-								   std::get<3>(object),
-								   std::get<4>(object));
+								   std::get<3>(object));
 
 			return;
 		}

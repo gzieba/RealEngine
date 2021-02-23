@@ -10,6 +10,7 @@
 #include <GLFW/glfw3.h>
 
 #include "Common/logging.h"
+#include "Modules/Objects/Model/ModelLoader.h"
 
 namespace
 {
@@ -42,18 +43,38 @@ void ImGuiManager::loadModel()
 {
 	if(ImGui::Button("LoadModel"))
 	{
-		ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", ".obj", ".");
+		ImGuiFileDialog::Instance()->OpenDialog("ChooseFileModel", "Choose File", ".obj,.fbx", ".");
 	}
 
-	if(ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey"))
+	if(ImGuiFileDialog::Instance()->Display("ChooseFileModel"))
 	{
 		if(ImGuiFileDialog::Instance()->IsOk())
 		{
 			auto path = ImGuiFileDialog::Instance()->GetFilePathName();
 			LOG(INFO) << LOCATION << path;
-			sendMessage({MessageType::LoadModel, std::string("/home/gzieba/Developer/repos/build-RealEngine-Desktop_Qt_6_0_1_GCC_64bit-Debug/nanosuit/nanosuit.obj")});
+			sendMessage({MessageType::LoadModel, std::string(path)});
 		}
 
+		ImGuiFileDialog::Instance()->Close();
+	}
+}
+
+void ImGuiManager::loadTexture(OpenGLRenderingObject &object)
+{
+	typedef std::tuple<unsigned char*, int, int, int> Texture2D;
+	if(ImGui::Button("LoadTexture"))
+	{
+		ImGuiFileDialog::Instance()->OpenDialog("ChooseTextureFile", "Choose File", ".jpg", ".");
+	}
+	if(ImGuiFileDialog::Instance()->Display("ChooseTextureFile"))
+	{
+		if(ImGuiFileDialog::Instance()->IsOk())
+		{
+			auto path = ImGuiFileDialog::Instance()->GetFilePathName();
+			LOG(INFO) << LOCATION << path;
+			auto texture = ModelLoader::createTexture2D(TextureType::baseColor, path.c_str());
+			object.setTexture(texture.first, texture.second);
+		}
 		ImGuiFileDialog::Instance()->Close();
 	}
 }
@@ -75,14 +96,11 @@ void ImGuiManager::newFrame(std::vector<OpenGLRenderingObject>& objects)
 		{
 			if(ImGui::CollapsingHeader("Models"))
 			{
-				for(auto& object : m_objects)
+				for(auto& object : objects)
 				{
-					if(ImGui::TreeNode(
-								(std::get<1>(object)
-								 + "(" + std::to_string(std::get<0>(object))
-								 + ")").c_str()))
+					if(ImGui::TreeNode(std::to_string(object.getID()).c_str()))
 					{
-						createMeshUi(object, objects);
+						createMeshUi(object);
 					}
 				}
 			}
@@ -109,7 +127,7 @@ void ImGuiManager::handleMessage(const Message &message)
 	{
 		case MessageType::ObjectListChanged:
 		{
-			m_objects.emplace_back(message.getData<std::tuple<int, std::string, Transform>>());
+//			m_objects.emplace_back(message.getData<std::tuple<int, std::string, Transform>>());
 			break;
 		}
 		default:
@@ -117,11 +135,11 @@ void ImGuiManager::handleMessage(const Message &message)
 	}
 }
 
-void ImGuiManager::createMeshUi(std::tuple<int, std::string, Transform>& object, std::vector<OpenGLRenderingObject>& objects)
+void ImGuiManager::createMeshUi(OpenGLRenderingObject &object)
 {
-	auto position = std::get<2>(object).getPosition();
-	auto rotation = std::get<2>(object).getRotation();
-	auto scale = std::get<2>(object).getScale();
+	auto position = object.getTransform().getPosition();
+	auto rotation = object.getTransform().getRotation();
+	auto scale = object.getTransform().getScale();
 	float positionArr[] = {position.x, position.y, position.z};
 	float rotationArr[] = {rotation.x, rotation.y, rotation.z};
 	float scaleArr[] = {scale.x, scale.y, scale.z};
@@ -145,12 +163,10 @@ void ImGuiManager::createMeshUi(std::tuple<int, std::string, Transform>& object,
 	scale.z = scaleArr[2];
 
 	auto newTransform = Transform{position, rotation, scale};
-	std::get<2>(object) = newTransform;
-	for(auto& obj : objects)
-	{
-		if(obj.getID() == std::get<0>(object))
-			obj.setTransform(newTransform);
-	}
+
+	object.setTransform(newTransform);
+
+	loadTexture(object);
 
 	ImGui::TreePop();
     ImGui::Separator();

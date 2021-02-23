@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <vector>
+#include <map>
 
 #include "Common/Components/Transform.h"
 #include "Common/Components/Vertex.h"
@@ -17,13 +17,14 @@ class OpenGLRenderingObject
 public:
 	OpenGLRenderingObject(unsigned int id, Transform transform,
 						  std::vector<Vertex> vertices,
-						  std::vector<unsigned int> indices,
-						  std::vector<Texture2D> textures);
+						  std::vector<unsigned int> indices);
 
 	unsigned int getID() const;
 	unsigned int getIndicesCount() const;
+	std::map<TextureType, OpenGLTexture2D>& getTextures();
 	Transform getTransform() const;
 	void setTransform(Transform transform);
+	void setTexture(TextureType type, Texture2D data);
 	const std::unique_ptr<OpenGLVertexArray>& getVAO() const;
 	void setupShader(const OpenGLShader& shader, const OpenGLCamera& camera);
 	void setupTextures(const OpenGLShader& shader);
@@ -36,7 +37,12 @@ private:
 	unsigned int m_indicesCount;
 	Transform m_transform;
 	std::unique_ptr<OpenGLVertexArray> m_vao;
-	std::vector<OpenGLTexture2D> m_textures;
+	std::map<TextureType, OpenGLTexture2D> m_textures =
+	{
+		{TextureType::baseColor, {}},
+		{TextureType::diffuse, {}},
+		{TextureType::specular, {}}
+	};
 
 	glm::mat4 m_modelMatrix = glm::mat4(1.0f);
 	glm::mat4 m_viewMatrix = glm::mat4(1.0f);

@@ -91,45 +91,18 @@ std::unique_ptr<Mesh> ModelLoader::processMesh(aiMesh *mesh, const aiScene* scen
 		}
 	}
 
-	if(mesh->mMaterialIndex >= 0)
-	{
-		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-
-		auto diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE);
-		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-
-		auto specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR);
-		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-	}
-
-	return std::make_unique<Mesh>(Mesh(vertices, indices, textures));
+	return std::make_unique<Mesh>(Mesh(vertices, indices));
 }
 
-ModelLoader::Texture2D ModelLoader::createTexture2D(const char *fileName)
+std::pair<TextureType, ModelLoader::Texture2D> ModelLoader::createTexture2D(TextureType type, const char* fileName)
 {
 	int width, height, numberOfChannels = 0;
 	unsigned char* data = stbi_load(fileName, &width, &height, &numberOfChannels, 0);
 	if(!data)
 	{
 		LOG(ERROR) << LOCATION << "Could not load texture: " << fileName;
-		return Texture2D();
+		return std::pair<TextureType, Texture2D>{};
 	}
 
-	return Texture2D(data, width, height, numberOfChannels);
-}
-
-std::vector<ModelLoader::Texture2D> ModelLoader::loadMaterialTextures(aiMaterial *material, aiTextureType type)
-{
-	std::vector<Texture2D> textures;
-
-	for(unsigned int i = 0; i < material->GetTextureCount(type); i++)
-	{
-		aiString path;
-		material->GetTexture(type, i, &path);
-		auto filePath = m_directory + std::string("/") + path.C_Str();
-		LOG(INFO) << LOCATION << "Loading texture: " << filePath;
-		auto texture = createTexture2D(filePath.c_str());
-		textures.push_back(texture);
-	}
-	return textures;
+	return std::pair<TextureType, Texture2D>(type, Texture2D(data, width, height, numberOfChannels));
 }

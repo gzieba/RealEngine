@@ -21,18 +21,12 @@ constexpr auto DEFAULT_SPECULAR = glm::vec3(0.5f, 0.5f, 0.5f);
 OpenGLRenderingObject::OpenGLRenderingObject(unsigned int id,
 											 Transform transform,
 											 std::vector<Vertex> vertices,
-											 std::vector<unsigned int> indices,
-											 std::vector<Texture2D> textures)
+											 std::vector<unsigned int> indices)
 	: m_id(id)
 	, m_transform(transform)
 	, m_vao(std::make_unique<OpenGLVertexArray>(vertices, indices))
 	, m_indicesCount(indices.size())
 {
-	for(const auto& texture : textures)
-		m_textures.emplace_back(std::get<0>(texture),
-								std::get<1>(texture),
-								std::get<2>(texture),
-								std::get<3>(texture));
 }
 
 unsigned int OpenGLRenderingObject::getID() const
@@ -55,6 +49,12 @@ void OpenGLRenderingObject::setTransform(Transform transform)
 	m_transform = transform;
 }
 
+void OpenGLRenderingObject::setTexture(TextureType type, OpenGLRenderingObject::Texture2D data)
+{
+	m_textures.at(type) = {std::get<0>(data), std::get<1>(data),
+							std::get<2>(data), std::get<3>(data)};
+}
+
 const std::unique_ptr<OpenGLVertexArray>& OpenGLRenderingObject::getVAO() const
 {
 	return m_vao;
@@ -75,20 +75,20 @@ void OpenGLRenderingObject::setupTextures(const OpenGLShader& shader)
 	unsigned int diffuseTextureNumber = 1;
 	unsigned int specularTextureNumber = 1;
 
-	for(unsigned int i = 0; i < m_textures.size(); i++)
+	for(const auto object : m_textures)
 	{
-		glActiveTexture(GL_TEXTURE0 + i);
+		glActiveTexture(GL_TEXTURE0 + static_cast<int>(object.first));
 
 		std::string number;
 		std::string textureName;
 
-		switch (i)
+		switch (object.first)
 		{
-			case 0:
+			case TextureType::baseColor:
 				number = std::to_string(diffuseTextureNumber++);
 				textureName = "diffuseTexture" + number;
 				return;
-			case 1:
+			case TextureType::diffuse:
 				number = std::to_string(specularTextureNumber++);
 				textureName = "specularTexture" + number;
 				break;
@@ -96,8 +96,8 @@ void OpenGLRenderingObject::setupTextures(const OpenGLShader& shader)
 				return;
 		}
 		auto uniformName = "material." + textureName;
-		shader.setUniform(uniformName.c_str(), static_cast<int>(i));
-		m_textures[i].bind();
+		shader.setUniform(uniformName.c_str(), static_cast<int>(object.first));
+		m_textures.at(object.first).bind();
 	}
 	shader.setUniform("material.shininess", 0.5f);
 }

@@ -19,6 +19,7 @@ enum class MessageType
     SetDefaultShader,
     SetDebugNormalShader,
     SetDebugTexCoordShader,
+	LoadTexture,
 	Shutdown
 };
 
@@ -39,6 +40,7 @@ const std::map<MessageType, std::string> s_messageTypeToString =
     {MessageType::SetDefaultShader, "SetDefaultShader"},
     {MessageType::SetDebugNormalShader, "SetDebugNormalShader"},
     {MessageType::SetDebugTexCoordShader, "SetDebugTexCoordShader"},
+	{MessageType::LoadTexture, "LoadTexture"},
 	{MessageType::Shutdown, "Shutdown"}
 };
 

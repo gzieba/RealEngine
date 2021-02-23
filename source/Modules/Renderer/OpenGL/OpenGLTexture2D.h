@@ -6,6 +6,7 @@ class OpenGLTexture2D
 {
 public:
 	OpenGLTexture2D(unsigned char* textureData, int width, int height, int numberOfChannels);
+	OpenGLTexture2D() = default;
 
 	void bind() const;
 private:

@@ -15,11 +15,11 @@ public:
 	virtual void handleMessage(const Message& message) override;
 
 private:
-	void createMeshUi(std::tuple<int, std::string, Transform>& object, std::vector<OpenGLRenderingObject>& objects);
+	void createMeshUi(OpenGLRenderingObject &object);
     void selectShader();
 
-	std::vector<std::tuple<int, std::string, Transform>> m_objects;
 	ImVec4* m_clearColor;
     int m_currentSelectedShader = 0;
 	void loadModel();
+	void loadTexture(OpenGLRenderingObject &object);
 };
