@@ -26,7 +26,7 @@ void OpenGLRenderer::drawFrame()
 	for(auto& object : m_renderingObjects)
 	{
 		object.setupShader(m_shader, m_camera);
-		object.setupLight(m_shader);
+		object.setupLight(m_shader, m_lighting);
 		object.getVAO()->bind();
 		object.setupTextures(m_shader);
 
@@ -36,7 +36,12 @@ void OpenGLRenderer::drawFrame()
 
 void OpenGLRenderer::setShader(ShaderType type)
 {
-    m_shader = OpenGLShader(ShaderType::OpenGLVertexShader, type);
+	m_shader = OpenGLShader(ShaderType::OpenGLVertexShader, type);
+}
+
+OpenGLLighting &OpenGLRenderer::getLighting()
+{
+	return m_lighting;
 }
 
 void OpenGLRenderer::clear()

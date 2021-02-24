@@ -10,6 +10,9 @@
 #include "OpenGLShader.h"
 #include "OpenGLVertexArray.h"
 #include "OpenGLTexture2D.h"
+#include "OpenGLLighting.h"
+
+#include "Modules/Renderer/DirectionalLight.h"
 
 class OpenGLRenderingObject
 {
@@ -28,7 +31,7 @@ public:
 	const std::unique_ptr<OpenGLVertexArray>& getVAO() const;
 	void setupShader(const OpenGLShader& shader, const OpenGLCamera& camera);
 	void setupTextures(const OpenGLShader& shader);
-	void setupLight(const OpenGLShader& shader);
+	void setupLight(const OpenGLShader& shader, OpenGLLighting lighting);
 
 private:
 	void setupTransformation(const OpenGLCamera& camera);

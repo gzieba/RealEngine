@@ -9,11 +9,6 @@
 
 #include <Common/logging.h>
 
-namespace
-{
-constexpr auto DEFAULT_DIRECTION = glm::vec3(-0.2f, -1.0f, -0.3f);
-constexpr auto DEFAULT_COLOR = glm::vec3(1.0f, 1.0f, 1.0f);}
-
 OpenGLRenderingObject::OpenGLRenderingObject(unsigned int id,
 											 Transform transform,
 											 std::vector<Vertex> vertices,
@@ -103,10 +98,10 @@ void OpenGLRenderingObject::setupTextures(const OpenGLShader& shader)
 	}
 }
 
-void OpenGLRenderingObject::setupLight(const OpenGLShader &shader)
+void OpenGLRenderingObject::setupLight(const OpenGLShader &shader, OpenGLLighting lighting)
 {
-	shader.setUniform("directionalLight.direction", DEFAULT_DIRECTION);
-	shader.setUniform("directionalLight.color", DEFAULT_COLOR);
+	shader.setUniform("directionalLight.direction", lighting.getDirectionalLight().position);
+	shader.setUniform("directionalLight.color", lighting.getDirectionalLight().color);
 }
 
 void OpenGLRenderingObject::setupTransformation(const OpenGLCamera& camera)

@@ -34,7 +34,7 @@ void Renderer::run()
 	while(!shouldExit)
 	{
 		m_openGLRenderer->drawFrame();
-		m_imGuiManager->newFrame(m_objects);
+		m_imGuiManager->newFrame(m_objects, m_openGLRenderer->getLighting());
 		m_window->swapBuffers();
 		std::lock_guard<std::mutex> lock(m_mutex);
 		if(!m_messageQueue.empty())

@@ -81,7 +81,7 @@ void ImGuiManager::loadTexture(TextureType type, OpenGLRenderingObject &object)
 	}
 }
 
-void ImGuiManager::newFrame(std::vector<OpenGLRenderingObject>& objects)
+void ImGuiManager::newFrame(std::vector<OpenGLRenderingObject>& objects, OpenGLLighting& lighting)
 {
 	glfwPollEvents();
 
@@ -108,7 +108,7 @@ void ImGuiManager::newFrame(std::vector<OpenGLRenderingObject>& objects)
 			}
 			if(ImGui::CollapsingHeader("Lights"))
 			{
-//				lightManager->CreateUi();
+				createLightUi(lighting);
 			}
 		}
 
@@ -175,7 +175,33 @@ void ImGuiManager::createMeshUi(OpenGLRenderingObject &object)
 	loadTexture(TextureType::ao, object);
 
 	ImGui::TreePop();
-    ImGui::Separator();
+	ImGui::Separator();
+}
+
+void ImGuiManager::createLightUi(OpenGLLighting &lighing)
+{
+	ImGui::Text("Set light parameters.");
+
+	auto position = lighing.getDirectionalLight().position;
+	auto color = lighing.getDirectionalLight().color;
+
+	float positionArr[] = {position.x, position.y, position.z};
+	float colorArr[] = {color.x, color.y, color.z};
+
+	ImGui::InputFloat3("Position", positionArr);
+	ImGui::InputFloat3("Color", colorArr);
+
+	position.x = positionArr[0];
+	position.y = positionArr[1];
+	position.z = positionArr[2];
+
+	color.x = colorArr[0];
+	color.y = colorArr[1];
+	color.z = colorArr[2];
+
+	lighing.setDirectionalLight(position, color);
+
+	ImGui::Separator();
 }
 
 void ImGuiManager::selectShader()
