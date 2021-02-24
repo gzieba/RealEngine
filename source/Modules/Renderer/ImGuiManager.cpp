@@ -43,7 +43,7 @@ void ImGuiManager::loadModel()
 {
 	if(ImGui::Button("LoadModel"))
 	{
-		ImGuiFileDialog::Instance()->OpenDialog("ChooseFileModel", "Choose File", ".obj,.fbx", ".");
+		ImGuiFileDialog::Instance()->OpenDialog("ChooseFileModel", "Choose File", "(.obj .fbx){.obj,.fbx}", ".");
 	}
 
 	if(ImGuiFileDialog::Instance()->Display("ChooseFileModel"))
@@ -59,20 +59,22 @@ void ImGuiManager::loadModel()
 	}
 }
 
-void ImGuiManager::loadTexture(OpenGLRenderingObject &object)
+void ImGuiManager::loadTexture(TextureType type, OpenGLRenderingObject &object)
 {
 	typedef std::tuple<unsigned char*, int, int, int> Texture2D;
-	if(ImGui::Button("LoadTexture"))
+	if(ImGui::Button(std::string("LoadTexture" + textureTypeToName(type)).c_str()))
 	{
-		ImGuiFileDialog::Instance()->OpenDialog("ChooseTextureFile", "Choose File", ".jpg", ".");
+		ImGuiFileDialog::Instance()->OpenDialog(
+					std::string("ChooseTextureFile" + textureTypeToName(type)).c_str()
+					, "Choose File", "(.jpg .png){.jpg,.png}", ".");
 	}
-	if(ImGuiFileDialog::Instance()->Display("ChooseTextureFile"))
+	if(ImGuiFileDialog::Instance()->Display(std::string("ChooseTextureFile" + textureTypeToName(type)).c_str()))
 	{
 		if(ImGuiFileDialog::Instance()->IsOk())
 		{
 			auto path = ImGuiFileDialog::Instance()->GetFilePathName();
 			LOG(INFO) << LOCATION << path;
-			auto texture = ModelLoader::createTexture2D(TextureType::albedo, path.c_str());
+			auto texture = ModelLoader::createTexture2D(type, path.c_str());
 			object.setTexture(texture.first, texture.second);
 		}
 		ImGuiFileDialog::Instance()->Close();
@@ -166,7 +168,11 @@ void ImGuiManager::createMeshUi(OpenGLRenderingObject &object)
 
 	object.setTransform(newTransform);
 
-	loadTexture(object);
+	loadTexture(TextureType::albedo, object);
+	loadTexture(TextureType::normal, object);
+	loadTexture(TextureType::metallic, object);
+	loadTexture(TextureType::roughness, object);
+	loadTexture(TextureType::ao, object);
 
 	ImGui::TreePop();
     ImGui::Separator();
@@ -200,5 +206,22 @@ void ImGuiManager::selectShader()
         }
         m_currentSelectedShader = newShader;
         return;
-    }
+	}
+}
+
+std::string ImGuiManager::textureTypeToName(TextureType type)
+{
+	switch (type)
+	{
+		case TextureType::albedo:
+			return "albedo";
+		case TextureType::normal:
+			return "normal";
+		case TextureType::metallic:
+			return "metallic";
+		case TextureType::roughness:
+			return "roughness";
+		case TextureType::ao:
+			return "ao";
+	}
 }

@@ -17,9 +17,10 @@ public:
 private:
 	void createMeshUi(OpenGLRenderingObject &object);
     void selectShader();
+	std::string textureTypeToName(TextureType type);
 
 	ImVec4* m_clearColor;
     int m_currentSelectedShader = 0;
 	void loadModel();
-	void loadTexture(OpenGLRenderingObject &object);
+	void loadTexture(TextureType type, OpenGLRenderingObject &object);
 };

@@ -12,7 +12,7 @@ in vec3 outNormal;
 // material parameters
 struct Material
 {
-    sampler2D abledoTexture;
+    sampler2D albedoTexture;
     sampler2D normalTexture;
     sampler2D metallicTexture;
     sampler2D roughnessTexture;
@@ -107,7 +107,7 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
 // ----------------------------------------------------------------------------
 void main()
 {		
-    vec3 albedo     = pow(texture(material.abledoTexture, outTexCoords).rgb, vec3(2.2));
+    vec3 albedo     = pow(texture(material.albedoTexture, outTexCoords).rgb, vec3(2.2));
     float metallic  = texture(material.metallicTexture, outTexCoords).r;
     float roughness = texture(material.roughnessTexture, outTexCoords).r;
     float ao        = texture(material.aoTexture, outTexCoords).r;
@@ -150,7 +150,7 @@ void main()
     // scale light by NdotL
     float NdotL = max(dot(N, L), 0.0);        
     // add to outgoing radiance Lo
-    Lo += (kD * albedo / PI + specular) * radiance * NdotL;  // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
+    Lo += 4 * (kD * albedo / PI + specular) * radiance * NdotL;  // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
     
     for(int i = 0; i < numberOfPointLights; ++i) 
     {

@@ -68,35 +68,38 @@ void OpenGLRenderingObject::setupShader(const OpenGLShader& shader, const OpenGL
 
 void OpenGLRenderingObject::setupTextures(const OpenGLShader& shader)
 {
-	for(const auto object : m_textures)
+	for(const auto& object : m_textures)
 	{
-		glActiveTexture(GL_TEXTURE0 + static_cast<int>(object.first));
-
-		std::string textureName;
-
-		switch (object.first)
+		if(object.second.isValid())
 		{
-			case TextureType::albedo:
-				textureName = "albedoTexture";
-				return;
-			case TextureType::normal:
-				textureName = "normalTexture";
-				break;
-			case TextureType::metallic:
-				textureName = "metallicTexture";
-				break;
-			case TextureType::roughness:
-				textureName = "roughnessTexture";
-				break;
-			case TextureType::ao:
-				textureName = "aoTexture";
-				break;
-			default:
-				return;
+			glActiveTexture(GL_TEXTURE0 + static_cast<int>(object.first));
+
+			std::string textureName;
+
+			switch (object.first)
+			{
+				case TextureType::albedo:
+					textureName = "albedoTexture";
+					break;
+				case TextureType::normal:
+					textureName = "normalTexture";
+					break;
+				case TextureType::metallic:
+					textureName = "metallicTexture";
+					break;
+				case TextureType::roughness:
+					textureName = "roughnessTexture";
+					break;
+				case TextureType::ao:
+					textureName = "aoTexture";
+					break;
+				default:
+					return;
+			}
+			auto uniformName = "material." + textureName;
+			shader.setUniform(uniformName.c_str(), static_cast<int>(object.first));
+			m_textures.at(object.first).bind();
 		}
-		auto uniformName = "material." + textureName;
-		shader.setUniform(uniformName.c_str(), static_cast<int>(object.first));
-		m_textures.at(object.first).bind();
 	}
 }
 
