@@ -12,11 +12,7 @@
 namespace
 {
 constexpr auto DEFAULT_DIRECTION = glm::vec3(-0.2f, -1.0f, -0.3f);
-constexpr auto DEFAULT_COLOR = glm::vec3(1.0f, 1.0f, 1.0f);
-constexpr auto DEFAULT_AMBIENT = glm::vec3(0.05f, 0.05f, 0.05f);
-constexpr auto DEFAULT_DIFFUSE = glm::vec3(0.4f, 0.4f, 0.4f);
-constexpr auto DEFAULT_SPECULAR = glm::vec3(0.5f, 0.5f, 0.5f);
-}
+constexpr auto DEFAULT_COLOR = glm::vec3(1.0f, 1.0f, 1.0f);}
 
 OpenGLRenderingObject::OpenGLRenderingObject(unsigned int id,
 											 Transform transform,
@@ -72,25 +68,28 @@ void OpenGLRenderingObject::setupShader(const OpenGLShader& shader, const OpenGL
 
 void OpenGLRenderingObject::setupTextures(const OpenGLShader& shader)
 {
-	unsigned int diffuseTextureNumber = 1;
-	unsigned int specularTextureNumber = 1;
-
 	for(const auto object : m_textures)
 	{
 		glActiveTexture(GL_TEXTURE0 + static_cast<int>(object.first));
 
-		std::string number;
 		std::string textureName;
 
 		switch (object.first)
 		{
-			case TextureType::baseColor:
-				number = std::to_string(diffuseTextureNumber++);
-				textureName = "diffuseTexture" + number;
+			case TextureType::albedo:
+				textureName = "albedoTexture";
 				return;
-			case TextureType::diffuse:
-				number = std::to_string(specularTextureNumber++);
-				textureName = "specularTexture" + number;
+			case TextureType::normal:
+				textureName = "normalTexture";
+				break;
+			case TextureType::metallic:
+				textureName = "metallicTexture";
+				break;
+			case TextureType::roughness:
+				textureName = "roughnessTexture";
+				break;
+			case TextureType::ao:
+				textureName = "aoTexture";
 				break;
 			default:
 				return;
@@ -99,16 +98,12 @@ void OpenGLRenderingObject::setupTextures(const OpenGLShader& shader)
 		shader.setUniform(uniformName.c_str(), static_cast<int>(object.first));
 		m_textures.at(object.first).bind();
 	}
-	shader.setUniform("material.shininess", 0.5f);
 }
 
 void OpenGLRenderingObject::setupLight(const OpenGLShader &shader)
 {
 	shader.setUniform("directionalLight.direction", DEFAULT_DIRECTION);
 	shader.setUniform("directionalLight.color", DEFAULT_COLOR);
-	shader.setUniform("directionalLight.ambient", DEFAULT_AMBIENT);
-	shader.setUniform("directionalLight.diffuse", DEFAULT_DIFFUSE);
-	shader.setUniform("directionalLight.specular", DEFAULT_SPECULAR);
 }
 
 void OpenGLRenderingObject::setupTransformation(const OpenGLCamera& camera)

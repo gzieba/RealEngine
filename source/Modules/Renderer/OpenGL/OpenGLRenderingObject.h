@@ -39,9 +39,11 @@ private:
 	std::unique_ptr<OpenGLVertexArray> m_vao;
 	std::map<TextureType, OpenGLTexture2D> m_textures =
 	{
-		{TextureType::baseColor, {}},
-		{TextureType::diffuse, {}},
-		{TextureType::specular, {}}
+		{TextureType::albedo, {}},
+		{TextureType::normal, {}},
+		{TextureType::metallic, {}},
+		{TextureType::roughness, {}},
+		{TextureType::ao, {}}
 	};
 
 	glm::mat4 m_modelMatrix = glm::mat4(1.0f);

@@ -72,7 +72,7 @@ void ImGuiManager::loadTexture(OpenGLRenderingObject &object)
 		{
 			auto path = ImGuiFileDialog::Instance()->GetFilePathName();
 			LOG(INFO) << LOCATION << path;
-			auto texture = ModelLoader::createTexture2D(TextureType::baseColor, path.c_str());
+			auto texture = ModelLoader::createTexture2D(TextureType::albedo, path.c_str());
 			object.setTexture(texture.first, texture.second);
 		}
 		ImGuiFileDialog::Instance()->Close();
