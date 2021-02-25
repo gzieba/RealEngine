@@ -99,7 +99,7 @@ void main()
     vec3 albedo     = pow(texture(material.albedoTexture, outTexCoords).rgb, vec3(2.2));
     float metallic  = texture(material.metallicTexture, outTexCoords).r;
     float roughness = texture(material.roughnessTexture, outTexCoords).r;
-    float ao        = texture(material.aoTexture, outTexCoords).r;
+    float ao        = max(texture(material.aoTexture, outTexCoords).r, 1.0);
 
     vec3 N = getNormalFromMap();
     vec3 V = normalize(viewPosition - outFragPos);
@@ -121,7 +121,6 @@ void main()
         float attenuation = 1.0 / (distance * distance);
         vec3 radiance = pointLights[i].color * attenuation;
 
-        // Cook-Torrance BRDF
         float NDF = DistributionGGX(N, H, roughness);   
         float G   = GeometrySmith(N, V, L, roughness);      
         vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);
