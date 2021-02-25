@@ -12,7 +12,7 @@
 #include "OpenGLTexture2D.h"
 #include "OpenGLLighting.h"
 
-#include "Modules/Renderer/DirectionalLight.h"
+#include "Modules/Renderer/PointLight.h"
 
 class OpenGLRenderingObject
 {

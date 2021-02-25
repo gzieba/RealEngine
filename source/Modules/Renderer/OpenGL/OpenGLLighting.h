@@ -1,16 +1,16 @@
 #pragma once
+#include <vector>
 
-#include "Modules/Renderer/DirectionalLight.h"
+#include "Modules/Renderer/PointLight.h"
 
 class OpenGLLighting
 {
 public:
 	OpenGLLighting();
-	DirectionalLight getDirectionalLight() const;
-	void setDirectionalLight(DirectionalLight light);
-	void setDirectionalLight(glm::vec3 position, glm::vec3 color);
+	std::vector<PointLight> getPointLights() const;
+	void setPointLight(int index, PointLight pointLight);
 
 private:
-	DirectionalLight m_directionalLight;
+	std::vector<PointLight> m_pointLights;
 };
 

@@ -100,8 +100,16 @@ void OpenGLRenderingObject::setupTextures(const OpenGLShader& shader)
 
 void OpenGLRenderingObject::setupLight(const OpenGLShader &shader, OpenGLLighting lighting)
 {
-	shader.setUniform("directionalLight.direction", lighting.getDirectionalLight().position);
-	shader.setUniform("directionalLight.color", lighting.getDirectionalLight().color);
+	shader.setUniform("numberOfPointLights", static_cast<int>(lighting.getPointLights().size()));
+	for(unsigned int i = 0; i < lighting.getPointLights().size(); i++)
+	{
+		shader.setUniform(
+					std::string("pointLights[" + std::to_string(i) + "].position").c_str(),
+					lighting.getPointLights()[i].position);
+		shader.setUniform(
+					std::string("pointLights[" + std::to_string(i) + "].color").c_str(),
+					lighting.getPointLights()[i].color);
+	}
 }
 
 void OpenGLRenderingObject::setupTransformation(const OpenGLCamera& camera)

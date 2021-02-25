@@ -1,22 +1,31 @@
 #include "OpenGLLighting.h"
 
+#include "Common/logging.h"
+
+namespace
+{
+constexpr auto DEFAULT_LIGHT_COUNT = 4;
+}
+
 OpenGLLighting::OpenGLLighting()
 {
-
+	for(int i = 0; i < DEFAULT_LIGHT_COUNT; i++)
+	{
+		m_pointLights.push_back({});
+	}
 }
 
-DirectionalLight OpenGLLighting::getDirectionalLight() const
+std::vector<PointLight> OpenGLLighting::getPointLights() const
 {
-	return m_directionalLight;
+	return m_pointLights;
 }
 
-void OpenGLLighting::setDirectionalLight(DirectionalLight light)
+void OpenGLLighting::setPointLight(int index, PointLight pointLight)
 {
-	m_directionalLight = light;
+	if(index >= m_pointLights.size())
+		LOG(ERROR) << LOCATION << "Incorrect index";
+
+	m_pointLights[index] = pointLight;
 }
 
-void OpenGLLighting::setDirectionalLight(glm::vec3 position, glm::vec3 color)
-{
-	m_directionalLight.position = position;
-	m_directionalLight.color = color;
-}
+

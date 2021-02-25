@@ -19,12 +19,6 @@ struct Material
     sampler2D aoTexture;
 };
 
-struct DirectionalLight
-{
-    vec3 direction;
-    vec3 color;
-};
-
 struct PointLight
 {
     vec3 position;
@@ -32,7 +26,6 @@ struct PointLight
 };
 
 uniform Material material;
-uniform DirectionalLight directionalLight;
 uniform int numberOfPointLights;
 uniform PointLight pointLights[MAX_NUMBER_OF_POINT_LIGHTS];
 
@@ -44,10 +37,6 @@ uniform vec3 viewPosition;
 
 const float PI = 3.14159265359;
 // ----------------------------------------------------------------------------
-// Easy trick to get tangent-normals to world-space to keep PBR code simplified.
-// Don't worry if you don't get what's going on; you generally want to do normal 
-// mapping the usual way for performance anways; I do plan make a note of this 
-// technique somewhere later in the normal mapping tutorial.
 vec3 getNormalFromMap()
 {
     vec3 tangentNormal = texture(material.normalTexture, outTexCoords).xyz * 2.0 - 1.0;
@@ -122,35 +111,6 @@ void main()
 
     // reflectance equation
     vec3 Lo = vec3(0.0);
-    // calculate per-light radiance
-    vec3 L = normalize(directionalLight.direction - outFragPos);
-    vec3 H = normalize(V + L);
-    float distance = length(directionalLight.direction - outFragPos);
-    float attenuation = 1.0 / (distance * distance);
-    vec3 radiance = directionalLight.color * attenuation;
-    // Cook-Torrance BRDF
-    float NDF = DistributionGGX(N, H, roughness);   
-    float G   = GeometrySmith(N, V, L, roughness);      
-    vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);
-       
-    vec3 nominator    = NDF * G * F; 
-    float denominator = 4 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.001; // 0.001 to prevent divide by zero.
-    vec3 specular = nominator / denominator;
-    
-    // kS is equal to Fresnel
-    vec3 kS = F;
-    // for energy conservation, the diffuse and specular light can't
-    // be above 1.0 (unless the surface emits light); to preserve this
-    // relationship the diffuse component (kD) should equal 1.0 - kS.
-    vec3 kD = vec3(1.0) - kS;
-    // multiply kD by the inverse metalness such that only non-metals 
-    // have diffuse lighting, or a linear blend if partly metal (pure metals
-    // have no diffuse light).
-    kD *= 1.0 - metallic;	  
-    // scale light by NdotL
-    float NdotL = max(dot(N, L), 0.0);        
-    // add to outgoing radiance Lo
-    Lo += 4 * (kD * albedo / PI + specular) * radiance * NdotL;  // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
     
     for(int i = 0; i < numberOfPointLights; ++i) 
     {

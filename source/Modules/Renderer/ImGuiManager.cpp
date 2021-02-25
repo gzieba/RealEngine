@@ -100,7 +100,7 @@ void ImGuiManager::newFrame(std::vector<OpenGLRenderingObject>& objects, OpenGLL
 			{
 				for(auto& object : objects)
 				{
-					if(ImGui::TreeNode(std::to_string(object.getID()).c_str()))
+					if(ImGui::TreeNode(std::string("Model " + std::to_string(object.getID())).c_str()))
 					{
 						createMeshUi(object);
 					}
@@ -108,7 +108,9 @@ void ImGuiManager::newFrame(std::vector<OpenGLRenderingObject>& objects, OpenGLL
 			}
 			if(ImGui::CollapsingHeader("Lights"))
 			{
-				createLightUi(lighting);
+				for(int i = 0; i < lighting.getPointLights().size(); i++)
+					if(ImGui::TreeNode(std::to_string(i).c_str()))
+						createLightUi(i, lighting);
 			}
 		}
 
@@ -178,12 +180,12 @@ void ImGuiManager::createMeshUi(OpenGLRenderingObject &object)
 	ImGui::Separator();
 }
 
-void ImGuiManager::createLightUi(OpenGLLighting &lighing)
+void ImGuiManager::createLightUi(unsigned int index, OpenGLLighting &lighing)
 {
 	ImGui::Text("Set light parameters.");
 
-	auto position = lighing.getDirectionalLight().position;
-	auto color = lighing.getDirectionalLight().color;
+	auto position = lighing.getPointLights()[index].position;
+	auto color = lighing.getPointLights()[index].color;
 
 	float positionArr[] = {position.x, position.y, position.z};
 	float colorArr[] = {color.x, color.y, color.z};
@@ -199,8 +201,9 @@ void ImGuiManager::createLightUi(OpenGLLighting &lighing)
 	color.y = colorArr[1];
 	color.z = colorArr[2];
 
-	lighing.setDirectionalLight(position, color);
+	lighing.setPointLight(index, {position, color});
 
+	ImGui::TreePop();
 	ImGui::Separator();
 }
 

@@ -17,7 +17,7 @@ public:
 
 private:
 	void createMeshUi(OpenGLRenderingObject &object);
-	void createLightUi(OpenGLLighting& lighing);
+	void createLightUi(unsigned int index, OpenGLLighting& lighing);
     void selectShader();
 	std::string textureTypeToName(TextureType type);
 
