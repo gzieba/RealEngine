@@ -9,6 +9,7 @@
 #include "OpenGL/OpenGLRenderingObject.h"
 
 #include "Modules/Objects/Object.h"
+#include "Modules/Renderer/ShaderType.h"
 
 #include "ImGuiManager.h"
 
@@ -21,6 +22,7 @@ Renderer::Renderer()
 
 Renderer::~Renderer()
 {
+	LOG(INFO) << __FUNCTION__ << "Deleting renderer";
 	delete m_openGLRenderer;
 	delete m_imGuiManager;
 	delete m_window;
@@ -32,7 +34,7 @@ void Renderer::run()
 	while(!shouldExit)
 	{
 		m_openGLRenderer->drawFrame();
-		m_imGuiManager->newFrame();
+		m_imGuiManager->newFrame(m_objects, m_openGLRenderer->getLighting());
 		m_window->swapBuffers();
 		std::lock_guard<std::mutex> lock(m_mutex);
 		if(!m_messageQueue.empty())
@@ -59,19 +61,41 @@ void Renderer::processMessage(const Message &message)
 	{
 		case MessageType::AddToRenderQueue:
 		{
+			typedef std::tuple<unsigned char*, int, int, int> Texture2D;
 			const auto object = message.getData<
-					std::tuple<unsigned int, Transform, std::vector<Vertex>, std::vector<unsigned int>>>();
-			m_objects.emplace_back(std::get<0>(object), std::get<1>(object), std::get<2>(object), std::get<3>(object));
+					std::tuple<unsigned int,
+					Transform,
+					std::vector<Vertex>,
+					std::vector<unsigned int>>>();
+			m_objects.emplace_back(std::get<0>(object),
+								   std::get<1>(object),
+								   std::get<2>(object),
+								   std::get<3>(object));
 
 			return;
 		}
 		case MessageType::SetTransform:
 		{
-			const auto data = message.getData<std::pair<unsigned int, Transform>>();
+			const auto data = message.getData<std::pair<int, Transform>>();
 			updateTransform(data.first, data.second);
 			LOG(TRACE) << LOCATION << "Updating transform in rendering object: \n" << data.second;
 			return;
 		}
+        case MessageType::SetDefaultShader:
+        {
+            m_openGLRenderer->setShader(ShaderType::OpenGLFragmentShader);
+            return;
+        }
+        case MessageType::SetDebugNormalShader:
+        {
+            m_openGLRenderer->setShader(ShaderType::OpenGLDebugNormalShader);
+            return;
+        }
+        case MessageType::SetDebugTexCoordShader:
+        {
+            m_openGLRenderer->setShader(ShaderType::OpenGLDebugTexShader);
+            return;
+        }
 		case MessageType::Test:
 		{
 			return;

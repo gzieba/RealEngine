@@ -14,5 +14,5 @@ std::vector<unsigned int> Mesh::getIndices() const
 
 std::vector<Vertex> Mesh::getVertices() const
 {
-	return m_vertices;
+    return m_vertices;
 }

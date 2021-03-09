@@ -1,12 +1,13 @@
 #pragma once
 
 #include <vector>
+#include <tuple>
+#include <map>
 
 #include "Common/Components/Vertex.h"
 
 class Mesh
 {
-
 	std::vector<unsigned int> m_indices;
 	std::vector<Vertex> m_vertices;
 

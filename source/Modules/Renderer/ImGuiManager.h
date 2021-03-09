@@ -1,20 +1,28 @@
 #pragma once
 #include "Modules/MessageSystem/Messenger.h"
+#include "Modules/Renderer/OpenGL/OpenGLRenderingObject.h"
+#include "Modules/Renderer/OpenGL/OpenGLLighting.h"
+#include <vector>
 
 struct GLFWwindow;
 class ImVec4;
 
-class ImGuiManager
+class ImGuiManager : public Messenger
 {
 public:
 	ImGuiManager(GLFWwindow* window);
 	virtual ~ImGuiManager();
-	void newFrame();
+	void newFrame(std::vector<OpenGLRenderingObject>& objects, OpenGLLighting& lighting);
+	virtual void handleMessage(const Message& message) override;
 
 private:
-	bool m_showDemoWindow;
-	bool m_showAnotherWindow;
-	ImVec4* m_clearColor;
+	void createMeshUi(OpenGLRenderingObject &object);
+	void createLightUi(unsigned int index, OpenGLLighting& lighing);
+    void selectShader();
+	std::string textureTypeToName(TextureType type);
 
-	Messenger m_messenger;
+	ImVec4* m_clearColor;
+    int m_currentSelectedShader = 0;
+	void loadModel();
+	void loadTexture(TextureType type, OpenGLRenderingObject &object);
 };

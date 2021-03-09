@@ -9,8 +9,13 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
+
 std::unique_ptr<Model> ModelLoader::loadModel(std::string filePath)
 {
+	m_directory = filePath.substr(0, filePath.find_last_of('/'));
+	m_modelName = filePath.substr(filePath.find_last_of('/') + 1, filePath.back());
 	Assimp::Importer importer;
 
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -42,10 +47,11 @@ void ModelLoader::processNode(aiNode *node, const aiScene *scene)
 	}
 }
 
-std::unique_ptr<Mesh> ModelLoader::processMesh(aiMesh *mesh, const aiScene*)
+std::unique_ptr<Mesh> ModelLoader::processMesh(aiMesh *mesh, const aiScene* scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
+	std::vector<Texture2D> textures;
 
 	for(unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
@@ -70,6 +76,8 @@ std::unique_ptr<Mesh> ModelLoader::processMesh(aiMesh *mesh, const aiScene*)
 			glm::vec2 vec;
 			vec.x = mesh->mTextureCoords[0][i].x;
 			vec.y = mesh->mTextureCoords[0][i].y;
+
+			vertex.texCoords = vec;
 		}
 		vertices.push_back(vertex);
 	}
@@ -83,7 +91,18 @@ std::unique_ptr<Mesh> ModelLoader::processMesh(aiMesh *mesh, const aiScene*)
 		}
 	}
 
-	// TODO: adding texture loading
-
 	return std::make_unique<Mesh>(Mesh(vertices, indices));
+}
+
+std::pair<TextureType, ModelLoader::Texture2D> ModelLoader::createTexture2D(TextureType type, const char* fileName)
+{
+	int width, height, numberOfChannels = 0;
+	unsigned char* data = stbi_load(fileName, &width, &height, &numberOfChannels, 0);
+	if(!data)
+	{
+		LOG(ERROR) << LOCATION << "Could not load texture: " << fileName;
+		return std::pair<TextureType, Texture2D>{};
+	}
+
+	return std::pair<TextureType, Texture2D>(type, Texture2D(data, width, height, numberOfChannels));
 }

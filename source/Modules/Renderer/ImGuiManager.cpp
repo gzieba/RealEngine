@@ -3,12 +3,14 @@
 #define IMGUI_IMPL_OPENGL_LOADER_GLAD
 
 #include "imgui.h"
-#include "examples/imgui_impl_glfw.h"
-#include "examples/imgui_impl_opengl3.h"
+#include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_opengl3.h"
+#include "ImGuiFileDialog.h"
 
 #include <GLFW/glfw3.h>
 
 #include "Common/logging.h"
+#include "Modules/Objects/Model/ModelLoader.h"
 
 namespace
 {
@@ -21,36 +23,13 @@ ImGuiManager::ImGuiManager(GLFWwindow* window)
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-
-	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
-	//ImGui::StyleColorsClassic();
-
-	// Setup Platform/Renderer bindings
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init(GLSL_VERSION);
 
-	// Load Fonts
-	// - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
-	// - AddFontFromFileTTF() will return the ImFont* so you can store it if you need to select the font among multiple.
-	// - If the file cannot be loaded, the function will return NULL. Please handle those errors in your application (e.g. use an assertion, or display an error and quit).
-	// - The fonts will be rasterized at a given size (w/ oversampling) and stored into a texture when calling ImFontAtlas::Build()/GetTexDataAsXXXX(), which ImGui_ImplXXXX_NewFrame below will call.
-	// - Read 'docs/FONTS.md' for more instructions and details.
-	// - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
-	//io.Fonts->AddFontDefault();
-	//io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
-	//io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
-	//io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
-	//io.Fonts->AddFontFromFileTTF("../../misc/fonts/ProggyTiny.ttf", 10.0f);
-	//ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
-	//IM_ASSERT(font != NULL);
-
-	  // Our state
-	m_showDemoWindow = false;
-	m_showAnotherWindow = false;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+	ImGuiFileDialog::Instance()->SetExtentionInfos(".obj", ImVec4(1.0f, 1.0f, 0.0f, 0.9f));
 }
 
 ImGuiManager::~ImGuiManager()
@@ -60,64 +39,218 @@ ImGuiManager::~ImGuiManager()
 	ImGui::DestroyContext();
 }
 
-void ImGuiManager::newFrame()
+void ImGuiManager::loadModel()
 {
-	// Poll and handle events (inputs, window resize, etc.)
-	// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-	// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
-	// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
-	// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
+	if(ImGui::Button("LoadModel"))
+	{
+		ImGuiFileDialog::Instance()->OpenDialog("ChooseFileModel", "Choose File", "(.obj .fbx){.obj,.fbx}", ".");
+	}
+
+	if(ImGuiFileDialog::Instance()->Display("ChooseFileModel"))
+	{
+		if(ImGuiFileDialog::Instance()->IsOk())
+		{
+			auto path = ImGuiFileDialog::Instance()->GetFilePathName();
+			LOG(INFO) << LOCATION << path;
+			sendMessage({MessageType::LoadModel, std::string(path)});
+		}
+
+		ImGuiFileDialog::Instance()->Close();
+	}
+}
+
+void ImGuiManager::loadTexture(TextureType type, OpenGLRenderingObject &object)
+{
+	typedef std::tuple<unsigned char*, int, int, int> Texture2D;
+	if(ImGui::Button(std::string("LoadTexture" + textureTypeToName(type)).c_str()))
+	{
+		ImGuiFileDialog::Instance()->OpenDialog(
+					std::string("ChooseTextureFile" + textureTypeToName(type)).c_str()
+					, "Choose File", "(.jpg .png){.jpg,.png}", ".");
+	}
+	if(ImGuiFileDialog::Instance()->Display(std::string("ChooseTextureFile" + textureTypeToName(type)).c_str()))
+	{
+		if(ImGuiFileDialog::Instance()->IsOk())
+		{
+			auto path = ImGuiFileDialog::Instance()->GetFilePathName();
+			LOG(INFO) << LOCATION << path;
+			auto texture = ModelLoader::createTexture2D(type, path.c_str());
+			object.setTexture(texture.first, texture.second);
+		}
+		ImGuiFileDialog::Instance()->Close();
+	}
+}
+
+void ImGuiManager::newFrame(std::vector<OpenGLRenderingObject>& objects, OpenGLLighting& lighting)
+{
 	glfwPollEvents();
 
-	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-	// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-	if (m_showDemoWindow)
-		ImGui::ShowDemoWindow(&m_showDemoWindow);
-
-	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
 	{
-		static float f = 0.0f;
-		static int counter = 0;
+		ImGui::Begin("RealEngine");                       // Create a window called "Hello, world!" and append into it.
 
-		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+		loadModel();
 
-		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-		ImGui::Checkbox("Demo Window", &m_showDemoWindow);      // Edit bools storing our window open/close state
-		ImGui::Checkbox("Another Window", &m_showAnotherWindow);
-
-		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-		ImGui::ColorEdit3("clear color", (float*)&m_clearColor); // Edit 3 floats representing a color
-
-		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+		if(ImGui::CollapsingHeader("Objects"))
 		{
-			counter++;
-			m_messenger.sendMessage({MessageType::LoadModel, std::string("/home/gzieba/Developer/repos/build-RealEngine-Desktop_Qt_5_15_0_GCC_64bit-Debug/nanosuit/nanosuit.obj")});
+			if(ImGui::CollapsingHeader("Models"))
+			{
+				for(auto& object : objects)
+				{
+					if(ImGui::TreeNode(std::string("Model " + std::to_string(object.getID())).c_str()))
+					{
+						createMeshUi(object);
+					}
+				}
+			}
+			if(ImGui::CollapsingHeader("Lights"))
+			{
+				for(int i = 0; i < lighting.getPointLights().size(); i++)
+					if(ImGui::TreeNode(std::to_string(i).c_str()))
+						createLightUi(i, lighting);
+			}
 		}
-		ImGui::SameLine();
-		ImGui::Text("counter = %d", counter);
-		if(ImGui::Button("DUPA"))
-		{
-			m_messenger.sendMessage({MessageType::LoadModel, std::string("C:\\Users/gniew/Downloads/cube.obj")});
-		}
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+        selectShader();
+
 		ImGui::End();
 	}
 
-	// 3. Show another simple window.
-	if (m_showAnotherWindow)
-	{
-		ImGui::Begin("Another Window", &m_showAnotherWindow);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-		ImGui::Text("Hello from another window!");
-		if (ImGui::Button("Close Me"))
-			m_showAnotherWindow = false;
-		ImGui::End();
-	}
 
 	// Rendering
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void ImGuiManager::handleMessage(const Message &message)
+{
+	switch (message.getMessageType())
+	{
+		case MessageType::ObjectListChanged:
+		{
+//			m_objects.emplace_back(message.getData<std::tuple<int, std::string, Transform>>());
+			break;
+		}
+		default:
+			return;
+	}
+}
+
+void ImGuiManager::createMeshUi(OpenGLRenderingObject &object)
+{
+	auto position = object.getTransform().getPosition();
+	auto rotation = object.getTransform().getRotation();
+	auto scale = object.getTransform().getScale();
+	float positionArr[] = {position.x, position.y, position.z};
+	float rotationArr[] = {rotation.x, rotation.y, rotation.z};
+	float scaleArr[] = {scale.x, scale.y, scale.z};
+
+	ImGui::Text("Set model transformation.");
+
+	ImGui::InputFloat3("Position", positionArr);
+	ImGui::InputFloat3("Rotation", rotationArr);
+	ImGui::InputFloat3("Scale", scaleArr);
+
+	position.x = positionArr[0];
+	position.y = positionArr[1];
+	position.z = positionArr[2];
+
+	rotation.x = rotationArr[0];
+	rotation.y = rotationArr[1];
+	rotation.z = rotationArr[2];
+
+	scale.x = scaleArr[0];
+	scale.y = scaleArr[1];
+	scale.z = scaleArr[2];
+
+	auto newTransform = Transform{position, rotation, scale};
+
+	object.setTransform(newTransform);
+
+	loadTexture(TextureType::albedo, object);
+	loadTexture(TextureType::normal, object);
+	loadTexture(TextureType::metallic, object);
+	loadTexture(TextureType::roughness, object);
+	loadTexture(TextureType::ao, object);
+
+	ImGui::TreePop();
+	ImGui::Separator();
+}
+
+void ImGuiManager::createLightUi(unsigned int index, OpenGLLighting &lighing)
+{
+	ImGui::Text("Set light parameters.");
+
+	auto position = lighing.getPointLights()[index].position;
+	auto color = lighing.getPointLights()[index].color;
+
+	float positionArr[] = {position.x, position.y, position.z};
+	float colorArr[] = {color.x, color.y, color.z};
+
+	ImGui::InputFloat3("Position", positionArr);
+	ImGui::InputFloat3("Color", colorArr);
+
+	position.x = positionArr[0];
+	position.y = positionArr[1];
+	position.z = positionArr[2];
+
+	color.x = colorArr[0];
+	color.y = colorArr[1];
+	color.z = colorArr[2];
+
+	lighing.setPointLight(index, {position, color});
+
+	ImGui::TreePop();
+	ImGui::Separator();
+}
+
+void ImGuiManager::selectShader()
+{
+    int newShader = m_currentSelectedShader;
+    ImGui::RadioButton("Default shader", &newShader, 0); ImGui::SameLine();
+    ImGui::RadioButton("Debug normal shader", &newShader, 1); ImGui::SameLine();
+    ImGui::RadioButton("Debug tex shader", &newShader, 2);
+    if(newShader != m_currentSelectedShader)
+    {
+        switch (newShader)
+        {
+            case 0:
+            {
+                sendMessage({MessageType::SetDefaultShader});
+                break;
+            }
+            case 1:
+            {
+                sendMessage({MessageType::SetDebugNormalShader});
+                break;
+            }
+            case 2:
+            {
+                sendMessage({MessageType::SetDebugTexCoordShader});
+                break;
+            }
+        }
+        m_currentSelectedShader = newShader;
+        return;
+	}
+}
+
+std::string ImGuiManager::textureTypeToName(TextureType type)
+{
+	switch (type)
+	{
+		case TextureType::albedo:
+			return "albedo";
+		case TextureType::normal:
+			return "normal";
+		case TextureType::metallic:
+			return "metallic";
+		case TextureType::roughness:
+			return "roughness";
+		case TextureType::ao:
+			return "ao";
+	}
 }

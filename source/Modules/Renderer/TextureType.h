@@ -2,6 +2,11 @@
 
 enum class TextureType
 {
-	diffuseTexture,
-	specularTexture
+	albedo = 0,
+	normal = 1,
+	metallic = 2,
+	roughness = 3,
+	ao = 4
 };
+
+

@@ -47,7 +47,25 @@ void OpenGLCamera::update()
 	double xPos, yPos;
 	glfwGetCursorPos(m_window->getWindow(), &xPos, &yPos);
 
-	mouseInput(xPos, yPos);
+	if(!m_isMouseButton2Pressed)
+	{
+		m_lastXPosition = xPos;
+		m_lastYPosition = yPos;
+	}
+
+	if(glfwGetMouseButton(m_window->getWindow(), GLFW_MOUSE_BUTTON_2) == GLFW_PRESS)
+	{
+		glfwSetInputMode(m_window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		m_isMouseButton2Pressed = true;
+		mouseInput(xPos, yPos);
+	}
+
+	if(glfwGetMouseButton(m_window->getWindow(), GLFW_MOUSE_BUTTON_2) == GLFW_RELEASE)
+	{
+		glfwSetInputMode(m_window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		m_isMouseButton2Pressed = false;
+	}
+
 
 	if (glfwGetKey(m_window->getWindow(), GLFW_KEY_W) == GLFW_PRESS)
 	{
@@ -91,13 +109,6 @@ glm::vec3 OpenGLCamera::getPosition() const
 
 void OpenGLCamera::mouseInput(float xPosition, float yPosition)
 {
-	if(m_isFirstMove)
-	{
-		m_lastXPosition = xPosition;
-		m_lastYPosition = yPosition;
-		m_isFirstMove = false;
-	}
-
 	float xOffset = xPosition - m_lastXPosition;
 	float yOffset = m_lastYPosition - yPosition;
 	m_lastXPosition = xPosition;

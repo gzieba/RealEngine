@@ -30,7 +30,7 @@ private:
 
 	float m_mouseSensitivity = 0.05f;
 
-	bool m_isFirstMove = true;
+	bool m_isMouseButton2Pressed = false;
 
 	float m_lastXPosition;
 	float m_lastYPosition;

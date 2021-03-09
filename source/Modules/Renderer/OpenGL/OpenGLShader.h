@@ -19,7 +19,7 @@ private:
 
 	unsigned int m_shaderProgram;
 
-	const ShaderType m_vertexShaderType;
-	const ShaderType m_fragmentShaderType;
+    ShaderType m_vertexShaderType;
+    ShaderType m_fragmentShaderType;
 };
 

@@ -22,9 +22,9 @@ void MessageBus::handleMessages()
 			LOG(TRACE) << messageTypeToString(message.getMessageType());
 			for(auto& messenger : m_messangers)
 				messenger->handleMessage(message);
-			m_messageQueue.pop();
 			if(message.getMessageType() == MessageType::Shutdown)
 				shouldExit = true;
+			m_messageQueue.pop();
 		}
 		else
 		{
@@ -39,6 +39,7 @@ void MessageBus::handleMessages()
 MessageBus::~MessageBus()
 {
 	m_handleMessagesThread.join();
+	LOG(INFO) << __FUNCTION__ << "Deleting MessageBus";
 }
 
 MessageBus& MessageBus::instance()
@@ -66,5 +67,5 @@ void MessageBus::sendMessage(const Message& message)
 {
 	std::lock_guard<std::mutex> lock(m_mutex);
 	m_messageQueue.push(message);
-	m_conditionVariable.notify_one();
+	m_conditionVariable.notify_all();
 }
